@@ -47,15 +47,14 @@ fn main() {
         if guess == secret_number {
             println!("Congratulations. You found the secret number after {} guesses", current_guess);
             break;
-        } else {
-            println!("I'm sorry, but your guess wasn't correct.");
-            if guess < secret_number {
-                println!("Next time try a higher number");
-            } else {
-                println!("Next time try a lower number");
-            }
-            println!("You have {} tries remaining", remaining_tries - current_guess);
         }
+        println!("I'm sorry, but your guess wasn't correct.");
+        if guess < secret_number {
+            println!("Next time try a higher number");
+        } else {
+            println!("Next time try a lower number");
+        }
+        println!("You have {} tries remaining", remaining_tries - current_guess);
     }
 
 }
