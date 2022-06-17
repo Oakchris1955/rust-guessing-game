@@ -12,8 +12,8 @@ fn get_user_input(msg: &str) -> u32 {
     io::stdin().read_line(&mut user_input).expect("Failed to read line");
 
 
-    let user_input: u32 = user_input.trim().parse().expect("Please type a number!");
-    return user_input;
+    user_input.trim().parse().expect("Please type a number!")
+
 }
 
 fn main() {
