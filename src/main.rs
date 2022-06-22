@@ -29,9 +29,9 @@ fn main() {
     // Main code begins here. DO NOT MODIFY IF YOU DON'T KNOW WHAT YOU ARE DOING
     let secret_number: u32 = rand::thread_rng().gen_range(min_number..max_number+1);
 
-    // This will be only executed with the --release flag
+    // This will be only executed without the --release flag
     #[cfg(debug_assertions)]
-    println!("The secret number is: {secret_number}", );
+    println!("The secret number is: {secret_number}");
 
     println!("A simple guessing game. Made by Oakchris1955");
 
