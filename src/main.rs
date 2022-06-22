@@ -5,16 +5,19 @@ use std::io::Write;
 use rand::Rng;
 
 fn get_user_input(msg: &str) -> u32 {
-    print!("{msg}");
-    io::stdout().flush().unwrap();
+    loop {
+        print!("{msg}");
+        io::stdout().flush().unwrap();
 
-    let mut user_input = String::new();
+        let mut user_input = String::new();
 
-    io::stdin().read_line(&mut user_input).expect("Failed to read line");
+        io::stdin().read_line(&mut user_input).expect("Failed to read line");
 
-
-    user_input.trim().parse().expect("Please type a number!")
-
+        match user_input.trim().parse() {
+            Ok(number) => return number,
+            Err(_error) => println!("Please type a number!"),
+        };
+    }
 }
 
 fn main() {
