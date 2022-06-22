@@ -18,6 +18,6 @@ If you are using Windows but you wanna compile yourself, repeat steps 1-4 and ru
 There are some variable on the top of the `main` function that can be configured.
 
 
-![editabled_variables](images/editable_variables.png)
-
-Some of the variables that can be edited
+| ![editabled_variables](images/editable_variables.png) |
+|:--:| 
+| *The variables that can be edited* |
