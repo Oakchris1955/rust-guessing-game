@@ -1,8 +1,52 @@
 use std::io;
 use std::io::Write;
+use std::process;
+use std::fs;
 
 // Include module to randomly select number
 use rand::Rng;
+
+// Include module to parse json
+use json;
+
+
+struct JSONOptions {
+	total_tries: u32,
+	max_number: u32,
+	min_number: u32
+}
+
+const DEFAULT_JSON_OPTIONS: [u32; 3] = [4, 100, 1];
+// 1st is total tries, 2nd is max number and 3rd is the min number
+
+
+fn get_json_info() -> JSONOptions {
+	let contents = fs::read_to_string("config/options.json");
+	
+	let json_str = match contents {
+		Ok(pure_json) => pure_json,
+		Err(e) => {
+			eprintln!("{}", e);
+			process::exit(1);
+		}
+	};
+
+	let json_content = json::parse(json_str.as_str());
+
+	let json_content = match json_content {
+		Ok(json_content) => json_content,
+		Err(e) => {
+			eprintln!("{}", e);
+			process::exit(1);
+		}
+	};
+
+	JSONOptions {
+		total_tries: json_content["total_tries"].as_u32().unwrap_or(DEFAULT_JSON_OPTIONS[0]),
+		max_number: json_content["max_number"].as_u32().unwrap_or(DEFAULT_JSON_OPTIONS[1]),
+		min_number: json_content["min_number"].as_u32().unwrap_or(DEFAULT_JSON_OPTIONS[2]),
+	}
+}
 
 fn get_user_input(msg: &str) -> u32 {
     loop {
@@ -21,10 +65,11 @@ fn get_user_input(msg: &str) -> u32 {
 }
 
 fn main() {
+	let options = get_json_info();
     // Edit these variables to modify the game
-    let total_tries = 4;
-    let max_number = 100; // the number to iter last
-    let min_number = 1; // the number to begin from
+    let total_tries = options.total_tries;
+    let max_number = options.max_number; // the number to iter last
+    let min_number = options.min_number; // the number to begin from
 
     // Main code begins here. DO NOT MODIFY IF YOU DON'T KNOW WHAT YOU ARE DOING
     let secret_number: u32 = rand::thread_rng().gen_range(min_number..max_number+1);
@@ -42,6 +87,8 @@ fn main() {
             println!("Last try.");
         } else if current_try == 1 {
             println!("Alright, let's begin.");
+			println!("You have {total_tries} tries.");
+			println!("Also, the secret number is between {min_number} and {max_number}.");
         } else {
             println!("Let's retry");
         }

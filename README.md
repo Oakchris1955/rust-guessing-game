@@ -11,9 +11,6 @@ To begin with:
 5) Then, all you have to do is run `compile.sh` for Linux or `compile.bat` for Windows, which will generate an executable on the main directory of the cloned repository (Note: Remove the `--release` flag from the `compile.*` files to get the hinted number)
 
 ## Configuration
-There are some variable on the top of the `main` function that can be configured.
-
-
-| ![editabled_variables](images/editable_variables.png) |
-|:--:| 
-| *The variables that can be edited* |
+In case you wanna edit the number of max tries you can have or mess with the number range, just edit `config/options.json`
+(Note: Deleting it *WILL* affect the program but turning it into an empty JSON won't, since the variables are hard-coded into it).
+Only `total_tries`, `min_number` and `max_number` fields will be read and the rest of them will be ignored.
