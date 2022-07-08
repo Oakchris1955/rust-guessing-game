@@ -61,7 +61,8 @@ fn main() {
             } else {
                 println!("Next time try a lower number");
             }
-            println!("You have {} tries remaining", total_tries - current_try);
+			let remaining_tries = total_tries - current_try;
+            println!("You have {} {} remaining", remaining_tries, if remaining_tries == 1 {"try"} else {"tries"});
         } else {
             println!("I'm sorry, you lost. The secret number was {secret_number}");
         }
