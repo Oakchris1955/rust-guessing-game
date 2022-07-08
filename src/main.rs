@@ -39,9 +39,9 @@ fn main() {
         // println!("Number of current guess: {current_try}");
 
         if current_try == total_tries {
-            println!("Last try. ");
+            println!("Last try.");
         } else if current_try == 1 {
-            println!("Alright, let's begin. ");
+            println!("Alright, let's begin.");
         } else {
             println!("Let's retry");
         }
