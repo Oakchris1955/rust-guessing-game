@@ -1,7 +1,10 @@
 use std::io;
 use std::io::Write;
 use std::process;
+
+// Include built-in module to read file
 use std::fs;
+// Include built-in error types
 use std::io::ErrorKind;
 
 // Include module to randomly select number
@@ -22,29 +25,37 @@ const DEFAULT_JSON_OPTIONS: [u32; 3] = [4, 100, 1];
 
 
 fn get_json_info() -> JSONOptions {
+	// Read file contents
 	let contents = fs::read_to_string("config/options.json");
 	
 	let json_str = match contents {
+		// if everything is fine, save as a variable the file contents
 		Ok(pure_json) => pure_json,
 		Err(e) => match e.kind() {
+			// else, if file doesn't exist, return an empty JSON string
 			ErrorKind::NotFound => String::from("{}"),
 			_ => {
+				// else, print the error and exit
 				eprintln!("{}", e);
 				process::exit(1);
 			}
 		}
 	};
 
+	// Decode the JSON string to an object
 	let json_content = json::parse(json_str.as_str());
 
 	let json_content = match json_content {
+		// if everything is fine, save as a variable the object
 		Ok(json_content) => json_content,
 		Err(e) => {
+			// else, print the error and exit
 			eprintln!("{}", e);
 			process::exit(1);
 		}
 	};
 
+	// then, return a JSONOptions struct with the specified options (if any)
 	JSONOptions {
 		total_tries: json_content["total_tries"].as_u32().unwrap_or(DEFAULT_JSON_OPTIONS[0]),
 		max_number: json_content["max_number"].as_u32().unwrap_or(DEFAULT_JSON_OPTIONS[1]),
