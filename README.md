@@ -1,6 +1,10 @@
 # Oakchris1955's simple guessing game
 
-A command-line based guessing game. Both installation and configuration are pretty straightforward
+A command-line based number guessing game. Both installation and configuration are pretty straightforward
+
+## What is it?
+
+This is a small game where you have to guess a secret number within a specified range. You are also given some hints about the secret number with every wrong try (for example, if the number is higher or lower than the once currently inputed). If you lose, you are displayed the secret number
 
 ## Installation
 
