@@ -63,17 +63,45 @@ fn get_json_info() -> JSONOptions {
 	}
 }
 
-fn get_user_input(msg: &str) -> u32 {
-    loop {
-        print!("{msg}");
-        io::stdout().flush().unwrap();
+fn get_user_input(msg: &str, secret_number: u32) -> u32 {
+	// we supply the secret number in case the program exits
 
+	// begin a loop
+    loop {
+		// print the message supplied
+        print!("{msg}");
+
+		// this match staement is so that input and msg are on the same line
+        match io::stdout().flush() {
+			Ok(_) => (),
+			Err(_error) => continue
+		}
+
+		// create an empty string
         let mut user_input = String::new();
 
-        io::stdin().read_line(&mut user_input).expect("Failed to read line");
+		// check if an error occured
+		match io::stdin().read_line(&mut user_input) {
+			Ok(_) => (),
+			Err(_error) => {
+				// if an error occured while reading line, then skip rest of loop using continue
+				println!("An error occured while reading line. Please try again");
+				continue;
+			}
+		}
 
-        match user_input.trim().parse() {
+		// before doing anything else, check if user entered "q"
+		if user_input == "q" {
+			// if yes, successfully exit the program and display a message
+			println!("Exiting program. The secret number was {secret_number}");
+			process::exit(0);
+		}
+
+		// try turning the input string to a u32 type
+        match user_input.trim().parse::<u32>() {
+			// if did succesfully, return it early, effectively stopping the loop
             Ok(number) => return number,
+			// else, print a message telling the user to input a number next time and repeat
             Err(_error) => println!("Please type a number!"),
         };
     }
@@ -105,7 +133,7 @@ fn main() {
             println!("Let's retry");
         }
 
-        let guess: u32 = get_user_input("Enter a number: ");
+        let guess: u32 = get_user_input("Enter a number: ", secret_number);
 
         // Check if found the correct number
         if guess == secret_number {
