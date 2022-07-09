@@ -69,14 +69,11 @@ fn get_user_input(msg: &str) -> u32 {
 }
 
 fn main() {
+	// Save the options as a variable
 	let options = get_json_info();
-    // Edit these variables to modify the game
-    let total_tries = options.total_tries;
-    let max_number = options.max_number; // the number to iter last
-    let min_number = options.min_number; // the number to begin from
 
     // Main code begins here. DO NOT MODIFY IF YOU DON'T KNOW WHAT YOU ARE DOING
-    let secret_number: u32 = rand::thread_rng().gen_range(min_number..max_number+1);
+    let secret_number: u32 = rand::thread_rng().gen_range(options.min_number..options.max_number+1);
 
     // This will be only executed without the --release flag
     #[cfg(debug_assertions)]
@@ -84,15 +81,15 @@ fn main() {
 
     println!("A simple guessing game. Made by Oakchris1955");
 
-    for current_try in 1..total_tries+1 {
+    for current_try in 1..options.total_tries+1 {
         // println!("Number of current guess: {current_try}");
 
-        if current_try == total_tries {
+        if current_try == options.total_tries {
             println!("Last try.");
         } else if current_try == 1 {
             println!("Alright, let's begin.");
-			println!("You have {total_tries} tries.");
-			println!("Also, the secret number is between {min_number} and {max_number}.");
+			println!("You have {} tries.", options.total_tries);
+			println!("Also, the secret number is between {} and {}.", options.min_number, options.max_number);
         } else {
             println!("Let's retry");
         }
@@ -105,14 +102,14 @@ fn main() {
             break;
         }
 
-        if current_try!=total_tries {
+        if current_try!=options.total_tries {
             println!("I'm sorry, but your guess wasn't correct.");
             if guess < secret_number {
                 println!("Next time try a higher number");
             } else {
                 println!("Next time try a lower number");
             }
-			let remaining_tries = total_tries - current_try;
+			let remaining_tries = options.total_tries - current_try;
             println!("You have {} {} remaining", remaining_tries, if remaining_tries == 1 {"try"} else {"tries"});
         } else {
             println!("I'm sorry, you lost. The secret number was {secret_number}");
