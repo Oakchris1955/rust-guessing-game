@@ -17,5 +17,5 @@ To begin with:
 ## Configuration
 
 In case you wanna edit the number of max tries you can have or mess with the number range, just edit `config/options.json`
-(Note: Deleting it *WILL* affect the program but turning it into an empty JSON won't, since the variables are hard-coded into it).
+(Note: Deleting it will just use the default options).
 Only `total_tries`, `min_number` and `max_number` fields will be read and the rest of them will be ignored.

@@ -2,6 +2,7 @@ use std::io;
 use std::io::Write;
 use std::process;
 use std::fs;
+use std::io::ErrorKind;
 
 // Include module to randomly select number
 use rand::Rng;
@@ -25,9 +26,12 @@ fn get_json_info() -> JSONOptions {
 	
 	let json_str = match contents {
 		Ok(pure_json) => pure_json,
-		Err(e) => {
-			eprintln!("{}", e);
-			process::exit(1);
+		Err(e) => match e.kind() {
+			ErrorKind::NotFound => String::from("{}"),
+			_ => {
+				eprintln!("{}", e);
+				process::exit(1);
+			}
 		}
 	};
 
