@@ -91,7 +91,7 @@ fn get_user_input(msg: &str, secret_number: u32) -> u32 {
 		}
 
 		// before doing anything else, check if user entered "q"
-		if user_input == "q" {
+		if user_input.trim() == "q" {
 			// if yes, successfully exit the program and display a message
 			println!("Exiting program. The secret number was {secret_number}");
 			process::exit(0);
@@ -133,7 +133,7 @@ fn main() {
             println!("Let's retry");
         }
 
-        let guess: u32 = get_user_input("Enter a number: ", secret_number);
+        let guess: u32 = get_user_input("Enter a number (or \"q\" to exit): ", secret_number);
 
         // Check if found the correct number
         if guess == secret_number {
