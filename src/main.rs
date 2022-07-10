@@ -1,4 +1,5 @@
 use std::io;
+use std::num::IntErrorKind;
 use std::io::Write;
 use std::process;
 
@@ -102,7 +103,14 @@ fn get_user_input(msg: &str, secret_number: u32) -> u32 {
 			// if did succesfully, return it early, effectively stopping the loop
             Ok(number) => return number,
 			// else, print a message telling the user to input a number next time and repeat
-            Err(_error) => println!("Please type a number!"),
+            Err(error) => match error.kind() {
+				IntErrorKind::Empty => println!("Please type something"),
+				IntErrorKind::InvalidDigit => println!("Non-digit character detected"),
+				IntErrorKind::PosOverflow => println!("Too large number detected"),
+				IntErrorKind::NegOverflow => println!("Number must be bigger than 0"),
+				IntErrorKind::Zero => println!("A string with a value of zero has been detected"),
+				_ => panic!("A non-expected error has occured. The error is \n\"{}\"\nPlease report this to https://github.com/Oakchris1955/rust-guessing-game/issues", error)
+			}
         };
     }
 }
