@@ -129,7 +129,8 @@ fn main() {
     println!("A simple guessing game. Made by Oakchris1955");
 
     for current_try in 1..options.total_tries+1 {
-        // println!("Number of current guess: {current_try}");
+		#[cfg(debug_assertions)]
+        println!("Number of current guess: {current_try}");
 
         if current_try == options.total_tries {
             println!("Last try.");
