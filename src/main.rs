@@ -94,7 +94,7 @@ fn get_user_input(msg: &str, secret_number: u32) -> u32 {
 		// before doing anything else, check if user entered "q"
 		if user_input.trim() == "q" {
 			// if yes, successfully exit the program and display a message
-			println!("Exiting program. The secret number was {secret_number}");
+			println!("Exiting program. The secret number was {}", secret_number);
 			process::exit(0);
 		}
 
@@ -124,7 +124,7 @@ fn main() {
 
     // This will be only executed without the --release flag
     #[cfg(debug_assertions)]
-    println!("The secret number is: {secret_number}");
+    println!("The secret number is: {}", secret_number);
 
     println!("A simple guessing game. Made by Oakchris1955");
 
@@ -159,7 +159,7 @@ fn main() {
 			let remaining_tries = options.total_tries - current_try;
             println!("You have {} {} remaining", remaining_tries, if remaining_tries == 1 {"try"} else {"tries"});
         } else {
-            println!("I'm sorry, you lost. The secret number was {secret_number}");
+            println!("I'm sorry, you lost. The secret number was {}", secret_number);
         }
     }
 
