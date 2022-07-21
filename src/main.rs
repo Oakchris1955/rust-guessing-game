@@ -109,7 +109,7 @@ fn get_user_input(msg: &str, secret_number: u32) -> u32 {
 				IntErrorKind::PosOverflow => println!("Too large number detected"),
 				IntErrorKind::NegOverflow => println!("Number must be bigger than 0"),
 				IntErrorKind::Zero => println!("A string with a value of zero has been detected"),
-				_ => panic!("A non-expected error has occured. The error is \n\"{}\"\nPlease report this to https://github.com/Oakchris1955/rust-guessing-game/issues", error)
+				_ => panic!("A non-expected error has occured. The error is \n\"{}\"\nPlease report this to https://github.com/Oakchris1955/rust-guessing-game/issues ", error)
 			}
         };
     }
