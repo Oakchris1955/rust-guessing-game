@@ -14,6 +14,11 @@ use rand::Rng;
 // Include module to parse json
 use json;
 
+// Include module locales...
+mod locales;
+// ...and include Localization struct and all the functions of the module
+use locales::structures::Localization;
+use locales::functions::*;
 
 struct JSONOptions {
 	total_tries: u32,
@@ -64,8 +69,8 @@ fn get_json_info() -> JSONOptions {
 	}
 }
 
-fn get_user_input(msg: &str, secret_number: u32) -> u32 {
-	// we supply the secret number in case the program exits
+fn get_user_input(msg: &str, secret_number: u32, locale: &Localization) -> u32 {
+	// we supply the secret number and the locale in case the program exits
 
 	// begin a loop
     loop {
@@ -86,7 +91,7 @@ fn get_user_input(msg: &str, secret_number: u32) -> u32 {
 			Ok(_) => (),
 			Err(_error) => {
 				// if an error occured while reading line, then skip rest of loop using continue
-				println!("An error occured while reading line. Please try again");
+				println!("{}", locale.messages.error_messages.cant_read_line);
 				continue;
 			}
 		}
@@ -94,7 +99,7 @@ fn get_user_input(msg: &str, secret_number: u32) -> u32 {
 		// before doing anything else, check if user entered "q"
 		if user_input.trim() == "q" {
 			// if yes, successfully exit the program and display a message
-			println!("Exiting program. The secret number was {}", secret_number);
+			println!("{}", format_once(locale.messages.info_messages.user_exit.as_str(), secret_number.to_string().as_str()));
 			process::exit(0);
 		}
 
@@ -104,18 +109,31 @@ fn get_user_input(msg: &str, secret_number: u32) -> u32 {
             Ok(number) => return number,
 			// else, print a message telling the user to input a number next time and repeat
             Err(error) => match error.kind() {
-				IntErrorKind::Empty => println!("Please type something"),
-				IntErrorKind::InvalidDigit => println!("Non-digit character detected"),
-				IntErrorKind::PosOverflow => println!("Too large number detected"),
-				IntErrorKind::NegOverflow => println!("Number must be bigger than 0"),
-				IntErrorKind::Zero => println!("A string with a value of zero has been detected"),
-				_ => panic!("A non-expected error has occured. The error is \n\"{}\"\nPlease report this to https://github.com/Oakchris1955/rust-guessing-game/issues ", error)
+				IntErrorKind::Empty => println!("{}", locale.messages.error_messages.input_errors.empty),
+				IntErrorKind::InvalidDigit => println!("{}", locale.messages.error_messages.input_errors.invalid_digit),
+				IntErrorKind::PosOverflow => println!("{}", locale.messages.error_messages.input_errors.pos_overflow),
+				IntErrorKind::NegOverflow => println!("{}", locale.messages.error_messages.input_errors.neg_overflow),
+				IntErrorKind::Zero => println!("{}", locale.messages.error_messages.input_errors.zero),
+				_ => panic!("{}", format_once(locale.messages.error_messages.input_errors.unknown_err.as_str(), format!("{error}").as_str()))
 			}
         };
     }
 }
 
 fn main() {
+	// Begin by getting the localization info
+	// Firstly, get a list with all the valid locales
+	let locales_list = get_locales_list("locales");
+	// Then, get the Localization object for the first locale (right now should be an English locale)
+	let english_locale = get_localization_info(&locales_list[0], "locales");
+	
+	// The localization will be automatically implemented throughout the program
+
+	// This will be only executed without the --release flag
+	#[cfg(debug_assertions)]{
+	println!("The list of locales is: {:?}", locales_list);
+	println!("And the localization object for the first locale is: {:?}", english_locale);}
+
 	// Save the options as a variable
 	let options = get_json_info();
 
@@ -124,47 +142,48 @@ fn main() {
 
     // This will be only executed without the --release flag
     #[cfg(debug_assertions)]
-    println!("The secret number is: {}", secret_number);
+	println!("{}", format_once(english_locale.messages.info_messages.debug.secret_number.as_str(), secret_number.to_string().as_str()));
+	//println!("The secret number is: {}", secret_number);
 
-    println!("A simple guessing game. Made by Oakchris1955");
+    println!("{}", english_locale.messages.info_messages.welcome_message);
 
     for current_try in 1..options.total_tries+1 {
 		#[cfg(debug_assertions)]
-        println!("Number of current guess: {current_try}");
+        println!("{}", format_once(english_locale.messages.info_messages.debug.current_try.as_str(), current_try.to_string().as_str()));
 
         if current_try == options.total_tries {
-            println!("Last try.");
+            println!("{}", english_locale.messages.info_messages.game_messages.last_try);
         } else if current_try == 1 {
-            println!("Alright, let's begin.");
-			println!("You have {} tries.", options.total_tries);
-			println!("Also, the secret number is between {} and {}.", options.min_number, options.max_number);
+            println!("{}",  english_locale.messages.info_messages.game_messages.first_try_messages.beginning_message);
+			println!("{}", format_once(english_locale.messages.info_messages.game_messages.first_try_messages.total_tries_announcement.as_str(), options.total_tries.to_string().as_str()));
+			println!("{}", format_twice(english_locale.messages.info_messages.game_messages.first_try_messages.secret_number_range.as_str(),[options.min_number.to_string().as_str(), options.max_number.to_string().as_str()]));
         } else {
-            println!("Let's retry");
+            println!("{}", english_locale.messages.info_messages.game_messages.other_tries);
         }
 
-        let guess: u32 = get_user_input("Enter a number (or \"q\" to exit): ", secret_number);
+        let guess: u32 = get_user_input(english_locale.messages.info_messages.game_messages.input_prompt_message.as_str(), secret_number, &english_locale);
 
         // Check if found the correct number
 		// If yes, print a message and break the loop, essentially ending the program
         if guess == secret_number {
-            println!("Congratulations. You found the secret number after {} guesses", current_try);
+            println!("{}", format_once(english_locale.messages.info_messages.game_messages.guess_results.correct.as_str(), current_try.to_string().as_str()));
             break;
         }
 
 		// Check if game ends here
 		// If not, print a hint about the guess (if it is higher or lower than the current one)
         if current_try!=options.total_tries {
-            println!("I'm sorry, but your guess wasn't correct.");
+            println!("{}", english_locale.messages.info_messages.game_messages.guess_results.wrong.announcement);
             if guess < secret_number {
-                println!("Next time try a higher number");
+                println!("{}", english_locale.messages.info_messages.game_messages.guess_results.wrong.higher_hint);
             } else {
-                println!("Next time try a lower number");
+                println!("{}", english_locale.messages.info_messages.game_messages.guess_results.wrong.lower_hint);
             }
 			let remaining_tries = options.total_tries - current_try;
-            println!("You have {} {} remaining", remaining_tries, if remaining_tries == 1 {"try"} else {"tries"});
+            println!("{}", format_twice(english_locale.messages.info_messages.game_messages.guess_results.wrong.remaining_tries.as_str(), [remaining_tries.to_string().as_str(), if remaining_tries == 1 {english_locale.messages.info_messages.game_messages.guess_results.wrong.try_singular.as_str()} else {english_locale.messages.info_messages.game_messages.guess_results.wrong.try_plural.as_str()}]));
         } else {
-            println!("I'm sorry, you lost. The secret number was {}", secret_number);
 			// If yes, print a message. The loop won't repeat and thus the program will end
+            println!("{}", format_once(english_locale.messages.info_messages.game_messages.guess_results.wrong.no_tries_remaining.as_str(), secret_number.to_string().as_str()));
         }
     }
 
