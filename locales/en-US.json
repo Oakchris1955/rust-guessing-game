@@ -1,0 +1,46 @@
+{
+	"lang_title": "American English",
+	"messages": {
+		"error_messages": {
+			"cant_read_line": "An error occured while reading line. Please try again",
+			"input_errors": {
+				"empty": "Please type something",
+				"invalid_digit": "Non-digit character detected",
+				"pos_overflow": "Too large number detected",
+				"neg_overflow": "Number must be bigger than 0",
+				"zero": "A string with a value of zero has been detected",
+				"unknown_err": "A non-expected error has occured. The error is \n\"{}\"\nPlease report this to https://github.com/Oakchris1955/rust-guessing-game/issues"
+			}
+		},
+		"info_messages": {
+			"debug": {
+				"secret_number": "The secret number is: {}",
+				"current_try": "Number of current guess: {}"
+			},
+			"welcome_message": "A simple guessing game. Made by Oakchris1955",
+			"user_exit": "Exiting program. The secret number was {}",
+			"game_messages": {
+				"first_try_messages": {
+					"beginning_message": "Alright, let's begin.",
+					"total_tries_announcement": "You have {} tries.",
+					"secret_number_range": "Also, the secret number is between {1} and {2}."
+				},
+				"last_try": "Last try.",
+				"other_tries": "Let's retry",
+				"input_prompt_message": "Enter a number (or \"q\" to exit): ",
+				"guess_results": {
+					"correct": "Congratulations. You found the secret number after {} guesses",
+					"wrong": {
+						"announcement": "I'm sorry, but your guess wasn't correct.",
+						"higher_hint": "Next time try a higher number",
+						"lower_hint": "Next time try a lower number",
+						"remaining_tries": "You have {1} {2} remaining",
+						"try_singular": "try",
+						"try_plural": "tries",
+						"no_tries_remaining": "I'm sorry, you lost. The secret number was {}"
+					}
+				}
+			}
+		}
+	}
+}
