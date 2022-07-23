@@ -145,11 +145,14 @@ fn main() {
         let guess: u32 = get_user_input("Enter a number (or \"q\" to exit): ", secret_number);
 
         // Check if found the correct number
+		// If yes, print a message and break the loop, essentially ending the program
         if guess == secret_number {
             println!("Congratulations. You found the secret number after {} guesses", current_try);
             break;
         }
 
+		// Check if game ends here
+		// If not, print a hint about the guess (if it is higher or lower than the current one)
         if current_try!=options.total_tries {
             println!("I'm sorry, but your guess wasn't correct.");
             if guess < secret_number {
@@ -161,6 +164,7 @@ fn main() {
             println!("You have {} {} remaining", remaining_tries, if remaining_tries == 1 {"try"} else {"tries"});
         } else {
             println!("I'm sorry, you lost. The secret number was {}", secret_number);
+			// If yes, print a message. The loop won't repeat and thus the program will end
         }
     }
 
