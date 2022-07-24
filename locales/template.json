@@ -1,0 +1,46 @@
+{
+	"lang_title": "Input the language title here",
+	"messages": {
+		"error_messages": {
+			"cant_read_line": "",
+			"input_errors": {
+				"empty": "",
+				"invalid_digit": "",
+				"pos_overflow": "",
+				"neg_overflow": "",
+				"zero": "",
+				"unknown_err": "{}" // The format argument is the error message
+			}
+		},
+		"info_messages": {
+			"debug": {
+				"secret_number": "{}", // The format argument is the secret number
+				"current_try": "{}" // The format argument is the number of the current try
+			},
+			"welcome_message": "",
+			"user_exit": "{}", // The format argument is the secret number
+			"game_messages": {
+				"first_try_messages": {
+					"beginning_message": "",
+					"total_tries_announcement": "{}", // The format argument is the total tries the user has to find the secret number
+					"secret_number_range": "{1} {2}" // The 1st argument is the 1st number of the range and the 2nd is the last one
+				},
+				"last_try": "",
+				"other_tries": "",
+				"input_prompt_message": "",
+				"guess_results": {
+					"correct": "{}", // The format argument is how many guesses it took you to find the secret number (A.k.a. the current try number)
+					"wrong": {
+						"announcement": "",
+						"higher_hint": "",
+						"lower_hint": "",
+						"remaining_tries": "{1} {2}", // Here, things get a little complicated. The 1st format argument is how many tries the player has to find the secret number (A.k.a. total_tries - current_try number). The second argument is the word try, which will be autoformatted to be singular is only 1 try is left and plural if not
+						"try_singular": "",
+						"try_plural": "",
+						"no_tries_remaining": "{}" // The format argument is the secret number
+					}
+				}
+			}
+		}
+	}
+}

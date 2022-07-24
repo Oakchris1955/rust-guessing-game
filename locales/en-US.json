@@ -9,35 +9,35 @@
 				"pos_overflow": "Too large number detected",
 				"neg_overflow": "Number must be bigger than 0",
 				"zero": "A string with a value of zero has been detected",
-				"unknown_err": "A non-expected error has occured. The error is \n\"{}\"\nPlease report this to https://github.com/Oakchris1955/rust-guessing-game/issues"
+				"unknown_err": "A non-expected error has occured. The error is \n\"{}\"\nPlease report this to https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument is the error message
 			}
 		},
 		"info_messages": {
 			"debug": {
-				"secret_number": "The secret number is: {}",
-				"current_try": "Number of current guess: {}"
+				"secret_number": "The secret number is: {}", // The format argument is the secret number
+				"current_try": "Number of current guess: {}" // The format argument is the number of the current try
 			},
 			"welcome_message": "A simple guessing game. Made by Oakchris1955",
-			"user_exit": "Exiting program. The secret number was {}",
+			"user_exit": "Exiting program. The secret number was {}", // The format argument is the secret number
 			"game_messages": {
 				"first_try_messages": {
 					"beginning_message": "Alright, let's begin.",
-					"total_tries_announcement": "You have {} tries.",
-					"secret_number_range": "Also, the secret number is between {1} and {2}."
+					"total_tries_announcement": "You have {} tries.", // The format argument is the total tries the user has to find the secret number
+					"secret_number_range": "Also, the secret number is between {1} and {2}." // The 1st argument is the 1st number of the range and the 2nd is the last one
 				},
 				"last_try": "Last try.",
 				"other_tries": "Let's retry",
 				"input_prompt_message": "Enter a number (or \"q\" to exit): ",
 				"guess_results": {
-					"correct": "Congratulations. You found the secret number after {} guesses",
+					"correct": "Congratulations. You found the secret number after {} guesses", // The format argument is how many guesses it took you to find the secret number (A.k.a. the current try number)
 					"wrong": {
 						"announcement": "I'm sorry, but your guess wasn't correct.",
 						"higher_hint": "Next time try a higher number",
 						"lower_hint": "Next time try a lower number",
-						"remaining_tries": "You have {1} {2} remaining",
+						"remaining_tries": "You have {1} {2} remaining", // Here, things get a little complicated. The 1st format argument is how many tries the player has to find the secret number (A.k.a. total_tries - current_try number). The second argument is the word try, which will be autoformatted to be singular is only 1 try is left and plural if not
 						"try_singular": "try",
 						"try_plural": "tries",
-						"no_tries_remaining": "I'm sorry, you lost. The secret number was {}"
+						"no_tries_remaining": "I'm sorry, you lost. The secret number was {}" // The format argument is the secret number
 					}
 				}
 			}
