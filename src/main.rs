@@ -139,13 +139,12 @@ fn main() {
 	// Save the options as a variable
 	let options = get_json_info();
 
-    // Main code begins here. DO NOT MODIFY IF YOU DON'T KNOW WHAT YOU ARE DOING
+    // Main code begins here.
     let secret_number: u32 = rand::thread_rng().gen_range(options.min_number..options.max_number+1);
 
     // This will be only executed without the --release flag
     #[cfg(debug_assertions)]
 	println!("{}", format_once(selected_locale.messages.info_messages.debug.secret_number.as_str(), secret_number.to_string().as_str()));
-	//println!("The secret number is: {}", secret_number);
 
     println!("{}", selected_locale.messages.info_messages.welcome_message);
 
