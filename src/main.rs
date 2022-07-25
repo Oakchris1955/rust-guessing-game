@@ -72,7 +72,7 @@ fn get_user_input(msg: &str, secret_number: u32) -> u32 {
 		// print the message supplied
         print!("{msg}");
 
-		// this match staement is so that input and msg are on the same line
+		// this match statement is so that input and msg are on the same line
         match io::stdout().flush() {
 			Ok(_) => (),
 			Err(_error) => continue
