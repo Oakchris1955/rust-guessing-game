@@ -1,0 +1,46 @@
+{
+	"lang_title": "Deutsch (Deutschland)",
+	"messages": {
+		"error_messages": {
+			"cant_read_line": "Fehler beim Lesen der Zeile. Bitte versuche es nochmals",
+			"input_errors": {
+				"empty": "Bitte gib einen Wert ein",
+				"invalid_digit": "non-numerischer Wert erkannt",
+				"pos_overflow": "Zahl zu groß",
+				"neg_overflow": "Zahl muss über 0 sein",
+				"zero": "Eine Zeichenkette null wurde erkannt.",
+				"unknown_err": "Ein unerwarteter Fehler ist aufgetreten. Der Fehler lautet \n\"{}\"\nBitte melde den Fehler hier: https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument is the error message
+			}
+		},
+		"info_messages": {
+			"debug": {
+				"secret_number": "Die Geheimzahl lautet: {}", // The format argument is the secret number
+				"current_try": "Zahl der aktuellen Schätzung: {}" // The format argument is the number of the current try
+			},
+			"welcome_message": "Ein einfaches Ratespiel von Oakchris1955",
+			"user_exit": "Program wird geschlossen. Die Geheimzahl war {}", // The format argument is the secret number
+			"game_messages": {
+				"first_try_messages": {
+					"beginning_message": "Los geht's.",
+					"total_tries_announcement": "Du hast {} Versuche.", // The format argument is the total tries the user has to find the secret number
+					"secret_number_range": "Die Zahl liegt übrigens zwischen {1} und {2}." // The 1st argument is the 1st number of the range and the 2nd is the last one
+				},
+				"last_try": "Letzter Versuch.",
+				"other_tries": "Probier's nochmal",
+				"input_prompt_message": "Gieb eine Zahl ein (oder \"q\" um das Programm zu schliessen): ",
+				"guess_results": {
+					"correct": "Gratulation. Du hast die Zahl nach {} Versuchen herausgefunden", // The format argument is how many guesses it took you to find the secret number (A.k.a. the current try number)
+					"wrong": {
+						"announcement": "Tut mir leid, deine Schätzung war nicht korrekt.",
+						"higher_hint": "Versuche nächstes Mal eine höhere Zahl",
+						"lower_hint": "Versuche nächstes Mal eine tiefere Zahl",
+						"remaining_tries": "Du hast noch {1} {2} übrig", // Here, things get a little complicated. The 1st format argument is how many tries the player has to find the secret number (A.k.a. total_tries - current_try number). The second argument is the word try, which will be autoformatted to be singular is only 1 try is left and plural if not
+						"try_singular": "Versuch",
+						"try_plural": "Versuche",
+						"no_tries_remaining": "Leider hast du keine Versuche mehr übrig. Die Geheimzahl war {}" // The format argument is the secret number
+					}
+				}
+			}
+		}
+	}
+}
