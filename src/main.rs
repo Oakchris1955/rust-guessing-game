@@ -8,6 +8,7 @@ use std::fs;
 // Include built-in error types
 use std::io::ErrorKind;
 
+use json::JsonValue;
 // Include module to randomly select number
 use rand::Rng;
 
@@ -23,14 +24,15 @@ use locales::functions::*;
 struct JSONOptions {
 	total_tries: u32,
 	max_number: u32,
-	min_number: u32
+	min_number: u32,
+	locale_name: String
 }
 
 const DEFAULT_JSON_OPTIONS: [u32; 3] = [4, 100, 1];
 // 1st is total tries, 2nd is max number and 3rd is the min number
 
 
-fn get_json_info() -> JSONOptions {
+fn get_json_info() -> (JSONOptions, JsonValue) {
 	// Read file contents
 	let contents = fs::read_to_string("config/options.json");
 	
@@ -51,7 +53,7 @@ fn get_json_info() -> JSONOptions {
 	// Decode the JSON string to an object
 	let json_content = json::parse(json_str.as_str());
 
-	let json_content = match json_content {
+	let mut json_content = match json_content {
 		// if everything is fine, save as a variable the object
 		Ok(json_content) => json_content,
 		Err(e) => {
@@ -62,11 +64,12 @@ fn get_json_info() -> JSONOptions {
 	};
 
 	// then, return a JSONOptions struct with the specified options (if any)
-	JSONOptions {
+	(JSONOptions {
 		total_tries: json_content["total_tries"].as_u32().unwrap_or(DEFAULT_JSON_OPTIONS[0]),
 		max_number: json_content["max_number"].as_u32().unwrap_or(DEFAULT_JSON_OPTIONS[1]),
 		min_number: json_content["min_number"].as_u32().unwrap_or(DEFAULT_JSON_OPTIONS[2]),
-	}
+		locale_name: json_content["locale_name"].take_string().unwrap_or(String::from("No locale detected"))
+	}, json_content)
 }
 
 fn get_user_input(msg: &str, secret_number: u32, locale: &Localization) -> u32 {
@@ -122,22 +125,49 @@ fn get_user_input(msg: &str, secret_number: u32, locale: &Localization) -> u32 {
 
 fn main() {
 	// Begin by getting the localization info
-	// Firstly, get a list with all the valid locales
-	let locales_list = get_locales_list("locales");
-	// Then, prompt the user to select a locale
-	let selected_locale_name = select_locale(&locales_list, "locales");
-	// Then, get the Localization object for the selected locale
-	let selected_locale = get_localization_info(&selected_locale_name, "locales");
+	// Firstly, get the json options and save them as a variable
+	let all_options = get_json_info();
+	let options = all_options.0;
+
+	// Check if locale_name exists or not and save corresponding Localization object
+	let selected_locale = if options.locale_name == "No locale detected" {
+		// Firstly, get a list with all the valid locales
+		let locales_list = get_locales_list("locales");
+		// Then, prompt the user to select a locale
+		let selected_locale_name = select_locale(&locales_list, "locales");
+		// Then, get the Localization object for the selected locale
+		let selected_locale = get_localization_info(&selected_locale_name, "locales");
 	
+		// Lastly, save locale to "options.json"
+		// Stringify option but with changed locale
+		let mut json_options = all_options.1;
+		json_options["locale_name"] = selected_locale_name.clone().into();
+		// Save to "options.json"
+		match fs::write("config/options.json", json_options.pretty(4)) {
+			Err(err) => {
+				eprintln!("An error occured while saving locale to options.json. Error message is:\n{err}\nExiting...");
+				process::exit(1);
+			},
+			Ok(_) => ()
+		}
+
+		// This will be only executed without the --release flag
+		#[cfg(debug_assertions)]{
+		println!("The list of locales is: {:?}", locales_list);
+		println!("And the localization object for the selected locale ({}) is: {:?}", selected_locale_name, selected_locale);}
+
+		selected_locale
+	} else {
+		// Check if found locale is valid
+		if get_locales_list("locales").iter().find(|locale_name| locale_name == &&options.locale_name).is_some() {
+			get_localization_info(&options.locale_name, "locales")
+		} else {
+			eprintln!("Invalid locale detected. Exiting...");
+			process::exit(1);
+		}
+	};
+
 	// The localization will be automatically implemented throughout the program
-
-	// This will be only executed without the --release flag
-	#[cfg(debug_assertions)]{
-	println!("The list of locales is: {:?}", locales_list);
-	println!("And the localization object for the selected locale ({}) is: {:?}", selected_locale_name, selected_locale);}
-
-	// Save the options as a variable
-	let options = get_json_info();
 
     // Main code begins here.
     let secret_number: u32 = rand::thread_rng().gen_range(options.min_number..options.max_number+1);
