@@ -2,7 +2,7 @@
 
 ## Filename format
 
-Each filename must be 10 characters long, in a **"`language`-`COUNTRY`.json"** format, where `language` is the file's language and `COUNTRY` is the localized version of `language`.
+Each filename must be 10 characters long, in a **"`language`-`COUNTRY`.json"** format, where `language` is the file's language according to `ISO 3166-1 alpha-2` and `COUNTRY` is the country according to `ISO 639-1` of a localized or the official version of `language` (Links to `ISO 3166-1 alpha-2` and `ISO 639-1` codes: [`ISO 3166-1 alpha-2`](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) [`ISO 639-1`](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements)).
 
 ## File contents
 
