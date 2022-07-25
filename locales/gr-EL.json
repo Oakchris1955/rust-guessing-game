@@ -22,12 +22,12 @@
 			"game_messages": {
 				"first_try_messages": {
 					"beginning_message": "Λοιπόν, ας ξεκινήσουμε.",
-					"total_tries_announcement": "Έχεις {} προσπάθειες.", // The format argument is the total tries the user has to find the secret number
+					"total_tries_announcement": "Έχετε {} προσπάθειες.", // The format argument is the total tries the user has to find the secret number
 					"secret_number_range": "Επίσης, ο μυστικός αριθμός είναι ανάμεσα στο {1} και στο {2}." // The 1st argument is the 1st number of the range and the 2nd is the last one
 				},
 				"last_try": "Τελευταία προσπάθεια.",
 				"other_tries": "Ας ξαναπροσπαθήσουμε",
-				"input_prompt_message": "Εισαγάγετε έναν αριθμό (ή \"q\" για να κλείσετε): ",
+				"input_prompt_message": "Εισαγάγετε έναν αριθμό (ή \"q\" για έξοδο): ",
 				"guess_results": {
 					"correct": "Συγχαρητήρια. Βρήκες τον μυστικό αριθμό μετά από {} μαντεψιές", // The format argument is how many guesses it took you to find the secret number (A.k.a. the current try number)
 					"wrong": {
