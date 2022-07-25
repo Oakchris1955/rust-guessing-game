@@ -124,15 +124,17 @@ fn main() {
 	// Begin by getting the localization info
 	// Firstly, get a list with all the valid locales
 	let locales_list = get_locales_list("locales");
-	// Then, get the Localization object for the first locale (right now should be an English locale)
-	let english_locale = get_localization_info(&locales_list[0], "locales");
+	// Then, prompt the user to select a locale
+	let selected_locale_name = select_locale(&locales_list, "locales");
+	// Then, get the Localization object for the selected locale
+	let selected_locale = get_localization_info(&selected_locale_name, "locales");
 	
 	// The localization will be automatically implemented throughout the program
 
 	// This will be only executed without the --release flag
 	#[cfg(debug_assertions)]{
 	println!("The list of locales is: {:?}", locales_list);
-	println!("And the localization object for the first locale is: {:?}", english_locale);}
+	println!("And the localization object for the selected locale ({}) is: {:?}", selected_locale_name, selected_locale);}
 
 	// Save the options as a variable
 	let options = get_json_info();
@@ -142,48 +144,48 @@ fn main() {
 
     // This will be only executed without the --release flag
     #[cfg(debug_assertions)]
-	println!("{}", format_once(english_locale.messages.info_messages.debug.secret_number.as_str(), secret_number.to_string().as_str()));
+	println!("{}", format_once(selected_locale.messages.info_messages.debug.secret_number.as_str(), secret_number.to_string().as_str()));
 	//println!("The secret number is: {}", secret_number);
 
-    println!("{}", english_locale.messages.info_messages.welcome_message);
+    println!("{}", selected_locale.messages.info_messages.welcome_message);
 
     for current_try in 1..options.total_tries+1 {
 		#[cfg(debug_assertions)]
-        println!("{}", format_once(english_locale.messages.info_messages.debug.current_try.as_str(), current_try.to_string().as_str()));
+        println!("{}", format_once(selected_locale.messages.info_messages.debug.current_try.as_str(), current_try.to_string().as_str()));
 
         if current_try == options.total_tries {
-            println!("{}", english_locale.messages.info_messages.game_messages.last_try);
+            println!("{}", selected_locale.messages.info_messages.game_messages.last_try);
         } else if current_try == 1 {
-            println!("{}",  english_locale.messages.info_messages.game_messages.first_try_messages.beginning_message);
-			println!("{}", format_once(english_locale.messages.info_messages.game_messages.first_try_messages.total_tries_announcement.as_str(), options.total_tries.to_string().as_str()));
-			println!("{}", format_twice(english_locale.messages.info_messages.game_messages.first_try_messages.secret_number_range.as_str(),[options.min_number.to_string().as_str(), options.max_number.to_string().as_str()]));
+            println!("{}",  selected_locale.messages.info_messages.game_messages.first_try_messages.beginning_message);
+			println!("{}", format_once(selected_locale.messages.info_messages.game_messages.first_try_messages.total_tries_announcement.as_str(), options.total_tries.to_string().as_str()));
+			println!("{}", format_twice(selected_locale.messages.info_messages.game_messages.first_try_messages.secret_number_range.as_str(),[options.min_number.to_string().as_str(), options.max_number.to_string().as_str()]));
         } else {
-            println!("{}", english_locale.messages.info_messages.game_messages.other_tries);
+            println!("{}", selected_locale.messages.info_messages.game_messages.other_tries);
         }
 
-        let guess: u32 = get_user_input(english_locale.messages.info_messages.game_messages.input_prompt_message.as_str(), secret_number, &english_locale);
+        let guess: u32 = get_user_input(selected_locale.messages.info_messages.game_messages.input_prompt_message.as_str(), secret_number, &selected_locale);
 
         // Check if found the correct number
 		// If yes, print a message and break the loop, essentially ending the program
         if guess == secret_number {
-            println!("{}", format_once(english_locale.messages.info_messages.game_messages.guess_results.correct.as_str(), current_try.to_string().as_str()));
+            println!("{}", format_once(selected_locale.messages.info_messages.game_messages.guess_results.correct.as_str(), current_try.to_string().as_str()));
             break;
         }
 
 		// Check if game ends here
 		// If not, print a hint about the guess (if it is higher or lower than the current one)
         if current_try!=options.total_tries {
-            println!("{}", english_locale.messages.info_messages.game_messages.guess_results.wrong.announcement);
+            println!("{}", selected_locale.messages.info_messages.game_messages.guess_results.wrong.announcement);
             if guess < secret_number {
-                println!("{}", english_locale.messages.info_messages.game_messages.guess_results.wrong.higher_hint);
+                println!("{}", selected_locale.messages.info_messages.game_messages.guess_results.wrong.higher_hint);
             } else {
-                println!("{}", english_locale.messages.info_messages.game_messages.guess_results.wrong.lower_hint);
+                println!("{}", selected_locale.messages.info_messages.game_messages.guess_results.wrong.lower_hint);
             }
 			let remaining_tries = options.total_tries - current_try;
-            println!("{}", format_twice(english_locale.messages.info_messages.game_messages.guess_results.wrong.remaining_tries.as_str(), [remaining_tries.to_string().as_str(), if remaining_tries == 1 {english_locale.messages.info_messages.game_messages.guess_results.wrong.try_singular.as_str()} else {english_locale.messages.info_messages.game_messages.guess_results.wrong.try_plural.as_str()}]));
+            println!("{}", format_twice(selected_locale.messages.info_messages.game_messages.guess_results.wrong.remaining_tries.as_str(), [remaining_tries.to_string().as_str(), if remaining_tries == 1 {selected_locale.messages.info_messages.game_messages.guess_results.wrong.try_singular.as_str()} else {selected_locale.messages.info_messages.game_messages.guess_results.wrong.try_plural.as_str()}]));
         } else {
 			// If yes, print a message. The loop won't repeat and thus the program will end
-            println!("{}", format_once(english_locale.messages.info_messages.game_messages.guess_results.wrong.no_tries_remaining.as_str(), secret_number.to_string().as_str()));
+            println!("{}", format_once(selected_locale.messages.info_messages.game_messages.guess_results.wrong.no_tries_remaining.as_str(), secret_number.to_string().as_str()));
         }
     }
 

@@ -85,6 +85,10 @@ pub mod functions {
 	// Include some modules
 	use std::fs;
 	use std::process;
+	use std::collections::HashMap;
+	use json;
+	use std::io::{ErrorKind, Read, self};
+	use json_comments::StripComments;
 	use super::structures::Localization;
 	use serde_json::error::Category as serde_err_category;
 
@@ -174,7 +178,7 @@ pub mod functions {
 			}*/
 		};
 	
-		let constructed_locale = serde_json::from_str(json_locale.as_str());
+		let constructed_locale = serde_json::from_reader(StripComments::new(json_locale.as_bytes()));
 	
 		let unwrapped_locale: Localization = match constructed_locale {
 			Ok(locale) => locale,
@@ -204,6 +208,104 @@ pub mod functions {
 		unwrapped_locale
 	
 	}
+
+	pub fn select_locale(locales_vec: &Vec<String>, locales_path: &str) -> String {
+		// Begin by creating an empty HashMap to store the locales according to their language
+		let mut locales_hash: HashMap<String, String> = HashMap::new();
+
+		// This iterator gets all locales name specified in field "lang_title" of the JSON file
+		for locale in locales_vec {
+			// This is a basically a copy of "get_json_info" function from "main"
+
+			// Read file contents
+			let contents = fs::read_to_string(format!("{locales_path}/{locale}.json"));
+			
+			let mut json_str = String::new();
+
+			match contents {
+				// if everything is fine, save as a variable the file contents
+				Ok(pure_json) => {StripComments::new(pure_json.as_bytes()).read_to_string(&mut json_str).unwrap();},
+				Err(e) => match e.kind() {
+					// else, if file doesn't exist, return an empty JSON string
+					ErrorKind::NotFound => json_str = String::from("{}"),
+					_ => {
+						// else, print the error and exit
+						eprintln!("{}", e);
+						process::exit(1);
+					}
+				}
+			};
+
+			// Decode the JSON string to an object
+			let json_contents = json::parse(json_str.as_str());
+
+			let json_contents = match json_contents {
+				// if everything is fine, save as a variable the object
+				Ok(json_content) => json_content,
+				Err(e) => {
+					// else, print the error and exit
+					eprintln!("{}", e);
+					process::exit(1);
+				}
+			};
+
+			// Insert locale and lang_title to locales_hash
+			let mut lang_title = json_contents["lang_title"].clone();
+
+			if lang_title.is_string() {
+				locales_hash.insert(locale.to_owned(), lang_title.take_string().unwrap());
+			}
+		}
+
+		// Begin printing the locales in order for the user to select one
+		// Firstly, check if the HashMap is empty
+		if locales_hash.is_empty() {
+			// If yes, exit
+			eprintln!("No locales found. Exiting...");
+			process::exit(1);
+		}
+
+		// If not, enter a loop
+		// Print a message explaining what to do
+		println!("Select a language (or \"q\"): ");
+		loop {
+			// Then, print all the locales
+			for (locale, lang_title) in locales_hash.iter() {
+				println!("({locale}): {lang_title}");
+			}
+
+			// The following lines are a copy of "get_user_input" function from "main"
+	
+			// create an empty string
+			let mut user_input = String::new();
+	
+			// check if an error occured
+			match io::stdin().read_line(&mut user_input) {
+				Ok(_) => (),
+				Err(_error) => {
+					// if an error occured while reading line, then skip rest of loop using continue
+					continue;
+				}
+			}
+
+			// Before checking if supplied locale exists, check if "q" inputted
+			if user_input.trim() == "q" {
+				println!("Exiting program.");
+				process::exit(0);
+			}
+
+			// Check if supplied locale exists
+			let result_locale = locales_hash.get(&user_input.trim().to_string()); // We trim the string here because the Enter key is thought as trailing whitespace
+			match result_locale {
+				Some(_locale_name) => {
+					// If yes, return from the function
+					return user_input.trim().to_string();
+				},
+				None => println!("Please select a valid language") // Else, repeat the loop again
+			}
+		}
+	}
+
 
 	pub fn format_once(to_format: &str, argument: &str) -> String {
 		// Begin by making a test to see if the string is valid
