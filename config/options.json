@@ -1,5 +1,5 @@
 {
-    "total_tries": 4,
-    "min_number": 1,
-    "max_number": 100
+	"total_tries": 4,
+	"max_number": 100,
+	"min_number": 1
 }
