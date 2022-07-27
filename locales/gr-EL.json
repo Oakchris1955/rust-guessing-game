@@ -1,0 +1,46 @@
+{
+	"lang_title": "Ελληνικά",
+	"messages": {
+		"error_messages": {
+			"cant_read_line": "Ένα σφάλμα συνέβη κατά τη διάρκεια της ανάγνωσης εισαγμένων στοιχείων από το χρήστη. Παρακαλώ προσπαθήστε αργότερα",
+			"input_errors": {
+				"empty": "Παρακαλώ γράψτε κάτι",
+				"invalid_digit": "Μη-ψηφίο ανιχνεύτηκε",
+				"pos_overflow": "Υπερβολικά μεγάλος αριθμός",
+				"neg_overflow": "Ο αριθμός πρέπει να είναι μεγαλύτερος του 0",
+				"zero": "Μια σειρά χαρακτήρων με τιμή 0 ανιχνεύτηκε",
+				"unknown_err": "Ένα μη αναμενόμενο σφάλμα συνέβη. Το σφάλμα είναι \n\"{}\"\nΠαρακαλώ αναφέρετε το στο https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument is the error message
+			}
+		},
+		"info_messages": {
+			"debug": {
+				"secret_number": "Ο μυστικός αριθμός είναι: {}", // The format argument is the secret number
+				"current_try": "Αριθμός τρέχων μαντεψιάς: {}" // The format argument is the number of the current try
+			},
+			"welcome_message": "Ένα απλό παιχνίδι μαντεψίας. Από τον Oakchris1955",
+			"user_exit": "Έξοδος προγράμματος. Ο μυστικός αριθμός ήταν {}", // The format argument is the secret number
+			"game_messages": {
+				"first_try_messages": {
+					"beginning_message": "Λοιπόν, ας ξεκινήσουμε.",
+					"total_tries_announcement": "Έχετε {} προσπάθειες.", // The format argument is the total tries the user has to find the secret number
+					"secret_number_range": "Επίσης, ο μυστικός αριθμός είναι ανάμεσα στο {1} και στο {2}." // The 1st argument is the 1st number of the range and the 2nd is the last one
+				},
+				"last_try": "Τελευταία προσπάθεια.",
+				"other_tries": "Ας ξαναπροσπαθήσουμε",
+				"input_prompt_message": "Εισαγάγετε έναν αριθμό (ή \"q\" για έξοδο): ",
+				"guess_results": {
+					"correct": "Συγχαρητήρια. Βρήκες τον μυστικό αριθμό μετά από {} μαντεψιές", // The format argument is how many guesses it took you to find the secret number (A.k.a. the current try number)
+					"wrong": {
+						"announcement": "Λυπάμαι, αλλά η μαντεψιά σας δεν ήταν σωστή",
+						"higher_hint": "Την επόμενη φορά δοκιμάστε έναν μεγαλύτερο αριθμό",
+						"lower_hint": "Την επόμενη φορά δοκιμάστε έναν μικρότερο αριθμό",
+						"remaining_tries": "Έχεις {1} {2} ακόμα", // Here, things get a little complicated. The 1st format argument is how many tries the player has to find the secret number (A.k.a. total_tries - current_try number). The second argument is the word try, which will be autoformatted to be singular is only 1 try is left and plural if not
+						"try_singular": "μαντεψιά",
+						"try_plural": "μαντεψιές",
+						"no_tries_remaining": "Λυπάμαι, έχασες. Ο μυστικός αριθμός ήταν {}" // The format argument is the secret number
+					}
+				}
+			}
+		}
+	}
+}
