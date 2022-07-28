@@ -160,7 +160,7 @@ pub mod functions {
 				eprintln!("An error has occured. Error message:\n\n{error}");
 				process::exit(1);
 			} 
-			// Ingnore this comment
+			// Ignore this comment
 			/*match error.into() {
 				ErrorKind::NotFound => {
 					eprintln!("Locale not found. This error shouldn't occur by default. Submit it to: https://github.com/Oakchris1955/rust-guessing-game/issues ");
