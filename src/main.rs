@@ -90,17 +90,6 @@ fn get_json_info() -> JSONOptions {
 		}
 	};
 
-
-	/*let mut json_content = match json_content {
-		// if everything is fine, save as a variable the object
-		Ok(json_content) => json_content,
-		Err(e) => {
-			// else, print the error and exit
-			eprintln!("{}", e);
-			process::exit(1);
-		}
-	};*/
-
 	// then, return a JSONOptions struct with the specified options (if any)
 	json_struct
 }
