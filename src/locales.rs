@@ -86,7 +86,6 @@ pub mod functions {
 	use std::fs;
 	use std::process;
 	use std::collections::HashMap;
-	use json;
 	use std::io::{ErrorKind, Read, self};
 	use json_comments::StripComments;
 	use super::structures::Localization;
@@ -237,23 +236,35 @@ pub mod functions {
 			};
 
 			// Decode the JSON string to an object
-			let json_contents = json::parse(json_str.as_str());
+			let json_result: serde_json::Result<serde_json::Value> = serde_json::from_str(json_str.as_str());
 
-			let json_contents = match json_contents {
-				// if everything is fine, save as a variable the object
-				Ok(json_content) => json_content,
-				Err(e) => {
-					// else, print the error and exit
-					eprintln!("{}", e);
-					process::exit(1);
+			let json_contents = match json_result {
+				Ok(value) => value,
+				Err(error) => match error.classify() {
+					serde_err_category::Io => {
+						eprintln!("Couldn't read bytes due to an IO error. This error shouldn't occur normally, and if it keeps occuring, report it at https://github.com/Oakchris1955/rust-guessing-game/issues ");
+						process::exit(1);
+					},
+					serde_err_category::Syntax => {
+						eprintln!("There was an error in the syntax of \"options.json\". Exiting...");
+						process::exit(1);
+					},
+					serde_err_category::Data => {
+						eprintln!("There was an error embedding the JSON info to the \"JSONOptions\" struct because a field's values didn't match each other. Exiting...");
+						process::exit(1);
+					},
+					serde_err_category::Eof => {
+						eprintln!("Reached the end of the file while still waiting for more data. Exiting...");
+						process::exit(1);
+					}
 				}
 			};
 
 			// Insert locale and lang_title to locales_hash
-			let mut lang_title = json_contents["lang_title"].clone();
+			let lang_title = &json_contents["lang_title"];
 
 			if lang_title.is_string() {
-				locales_hash.insert(locale.to_owned(), lang_title.take_string().unwrap());
+				locales_hash.insert(locale.to_owned(), lang_title.to_string());
 			}
 		}
 
