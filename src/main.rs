@@ -13,19 +13,20 @@ use rand::Rng;
 
 // Include modules to parse json and trim JSON comments
 use json_comments::StripComments;
-use serde_json::Result;
+use serde_json::{Result, Value};
 use serde_json::error::Category as serde_err_category;
 use serde::{Serialize, Deserialize};
 
 // Include module locales...
 mod locales;
+mod commands;
 // ...and include Localization struct and all the functions of the module
 use locales::structures::Localization;
 use locales::functions::*;
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(default)]
-struct JSONOptions {
+pub struct JSONOptions {
 	total_tries: u32,
 	max_number: u32,
 	min_number: u32,
@@ -44,10 +45,13 @@ impl Default for JSONOptions {
 	}
 }
 
+pub enum JSONResults {
+	Value(Value),
+	JSONOptions(JSONOptions)
+}
 
 
-
-fn get_json_info() -> JSONOptions {
+fn get_json_info(embed_struct: bool) -> JSONResults {
 	// Read file contents
 	let contents = fs::read_to_string("config/options.json");
 	
@@ -65,9 +69,9 @@ fn get_json_info() -> JSONOptions {
 		}
 	};
 
-	// Decode the JSON string to an object
+	// Decode the JSON string to an object (if embed_struct is true)
 	let stripped_str = StripComments::new(json_str.as_bytes());
-	let json_result: Result<JSONOptions> = serde_json::from_reader(stripped_str);//json::parse(json_str.as_str());
+	let json_result: Result<Value> = serde_json::from_reader(stripped_str);//json::parse(json_str.as_str());
 	let json_struct = match json_result {
 		Ok(value) => value,
 		Err(error) => match error.classify() {
@@ -91,7 +95,28 @@ fn get_json_info() -> JSONOptions {
 	};
 
 	// then, return a JSONOptions struct with the specified options (if any)
-	json_struct
+	if embed_struct {
+		JSONResults::JSONOptions(serde_json::from_value::<JSONOptions>(json_struct).unwrap_or_else(|err| {
+			match err.classify() {
+				serde_err_category::Io => {
+					eprintln!("Couldn't read bytes due to an IO error. This error shouldn't occur normally, and if it keeps occuring, report it at https://github.com/Oakchris1955/rust-guessing-game/issues ");
+					process::exit(1);
+				},
+				serde_err_category::Syntax => {
+					eprintln!("There was an error in the syntax of \"options.json\". Exiting...");
+					process::exit(1);
+				},
+				serde_err_category::Data => {
+					eprintln!("There was an error embedding the JSON info to the \"JSONOptions\" struct because a field's values didn't match each other. Exiting...");
+					process::exit(1);
+				},
+				serde_err_category::Eof => {
+					eprintln!("Reached the end of the file while still waiting for more data. Exiting...");
+					process::exit(1);
+				}
+			}
+		}))
+	} else {JSONResults::Value(json_struct)}
 }
 
 fn get_user_input(msg: &str, secret_number: u32, locale: &Localization) -> u32 {
@@ -148,7 +173,9 @@ fn get_user_input(msg: &str, secret_number: u32, locale: &Localization) -> u32 {
 fn main() {
 	// Begin by getting the localization info
 	// Firstly, get the json options and save them as a variable
-	let mut options = get_json_info();
+	let options = if let JSONResults::JSONOptions(option) = get_json_info(true) {
+		Some(option)
+	} else {None}.unwrap();
 
 	// Check if locale_name exists or not and save corresponding Localization object
 	let selected_locale = if options.locale_name == String::from("No locale detected") {
@@ -157,23 +184,7 @@ fn main() {
 		// Then, prompt the user to select a locale
 		let selected_locale_name = select_locale(&locales_list, "locales");
 		// Then, get the Localization object for the selected locale
-		let selected_locale = get_localization_info(&selected_locale_name, "locales");
-	
-		// Lastly, save locale to "options.json"
-		// Stringify option but with changed locale
-		options.locale_name = selected_locale_name.clone().into();
-		let buf = Vec::new();
-		let formatter = serde_json::ser::PrettyFormatter::with_indent(b"	");
-		let mut ser = serde_json::Serializer::with_formatter(buf, formatter);
-		options.serialize(&mut ser).unwrap();
-		// Save to "options.json"
-		match fs::write("config/options.json", String::from_utf8(ser.into_inner()).unwrap()) {
-			Err(err) => {
-				eprintln!("An error occured while saving locale to options.json. Error message is:\n{err}\nExiting...");
-				process::exit(1);
-			},
-			Ok(_) => ()
-		}
+		let selected_locale = change_locale(&selected_locale_name);
 
 		// This will be only executed without the --release flag
 		#[cfg(debug_assertions)]{

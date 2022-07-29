@@ -84,12 +84,14 @@ pub mod structures {
 pub mod functions {
 	// Include some modules
 	use std::fs;
+	use crate::{JSONResults, get_json_info};
 	use std::process;
 	use std::collections::HashMap;
 	use std::io::{ErrorKind, Read, self};
 	use json_comments::StripComments;
 	use super::structures::Localization;
 	use serde_json::error::Category as serde_err_category;
+	use serde::Serialize;
 
 	pub fn get_locales_list(directory: &str) -> Vec<String> {
 		// Get all files inside directory and unwrap it
@@ -317,6 +319,42 @@ pub mod functions {
 		}
 	}
 
+	pub fn change_locale(selected_locale_name: &String) -> Localization {/*
+		// Firstly, get a list with all the valid locales
+		let locales_list = get_locales_list("locales");
+		// Then, prompt the user to select a locale
+		let selected_locale_name = select_locale(&locales_list, "locales");
+		// Then, get the Localization object for the selected locale
+		let selected_locale = get_localization_info(&selected_locale_name, "locales");*/
+		
+		
+		// Begin by getting the localization info
+		// Firstly, get the json options and save them as a variable
+
+		let mut options = if let JSONResults::Value(option) = get_json_info(false) {
+			Some(option)
+		} else {None}.unwrap();
+
+		// Then, get the Localization object for the selected locale
+		let selected_locale = get_localization_info(&selected_locale_name, "locales");
+
+		// Lastly, save locale to "options.json"
+		// Stringify option but with changed locale
+		options["locale_name"] = selected_locale_name.clone().into();
+		let buf = Vec::new();
+		let formatter = serde_json::ser::PrettyFormatter::with_indent(b"	");
+		let mut ser = serde_json::Serializer::with_formatter(buf, formatter);
+		options.serialize(&mut ser).unwrap();
+		// Save to "options.json"
+		match fs::write("config/options.json", String::from_utf8(ser.into_inner()).unwrap()) {
+			Err(err) => {
+				eprintln!("An error occured while saving locale to options.json. Error message is:\n{err}\nExiting...");
+				process::exit(1);
+			},
+			Ok(_) => ()
+		}
+		selected_locale
+	}
 
 	pub fn format_once(to_format: &str, argument: &str) -> String {
 		// Begin by making a test to see if the string is valid
