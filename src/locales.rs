@@ -169,8 +169,8 @@ pub mod functions {
 				eprintln!("An error has occured. Error message:\n\n{error}");
 				process::exit(1);
 			} 
-			// Ignore this comment
-			/*match error.into() {
+			/* Ignore this comment
+			match error.into() {
 				ErrorKind::NotFound => {
 					eprintln!("Locale not found. This error shouldn't occur by default. Submit it to: https://github.com/Oakchris1955/rust-guessing-game/issues ");
 					process::exit(1);
@@ -326,15 +326,7 @@ pub mod functions {
 		}
 	}
 
-	pub fn change_locale(selected_locale_name: &String) -> Localization {/*
-		// Firstly, get a list with all the valid locales
-		let locales_list = get_locales_list("locales");
-		// Then, prompt the user to select a locale
-		let selected_locale_name = select_locale(&locales_list, "locales");
-		// Then, get the Localization object for the selected locale
-		let selected_locale = get_localization_info(&selected_locale_name, "locales");*/
-		
-		
+	pub fn change_locale(selected_locale_name: &String) -> Localization {
 		// Begin by getting the localization info
 		// Firstly, get the json options and save them as a variable
 
