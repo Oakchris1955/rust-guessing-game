@@ -82,14 +82,21 @@ pub mod structures {
 
 // Create a public module named "functions"
 pub mod functions {
-	// Include some modules
+	// Include built-in fs module to read and save text to file
 	use std::fs;
+	// Include some crate's functions
 	use crate::{JSONResults, get_json_info};
+	// Include process module to terminate program when needed
 	use std::process;
+	// Include HashMap collection
 	use std::collections::HashMap;
+	// Include built-in module io and some enum and traits within it
 	use std::io::{ErrorKind, Read, self};
+	// Include module to remove json commments
 	use json_comments::StripComments;
+	// Include struct Localization from this file
 	use super::structures::Localization;
+	// Include serde(_json) and an error-related enum
 	use serde_json::error::Category as serde_err_category;
 	use serde::Serialize;
 

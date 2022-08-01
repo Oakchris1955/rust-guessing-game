@@ -1,6 +1,9 @@
+// Include built-in io module to properly get user input
 use std::io;
-use std::num::IntErrorKind;
 use std::io::Write;
+// Also, include error kinds for parsing to int
+use std::num::IntErrorKind;
+// Include process module to terminate program when needed
 use std::process;
 
 // Include built-in module to read file
