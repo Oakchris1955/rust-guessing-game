@@ -1,6 +1,16 @@
-// Include locale module's functions
-use crate::locales::functions::*;
+// Include locale module's functions and Localization struct
+use crate::locales::{functions::*, structures::Localization};
+// Include process module to terminate program when needed
 use std::process;
+// Include macro to create Maps at compile time
+use phf::phf_map;
+
+// Constant that stores all the commands the user can input
+const COMMANDS_MAP: phf::Map<&'static str, fn(&Localization, u32)> = phf_map! {
+	"q" => |locale, secret_number| {format_once(locale.messages.info_messages.user_exit.as_str(), secret_number.to_string().as_str());process::exit(0)},
+	"quit" => |locale, secret_number| {format_once(locale.messages.info_messages.user_exit.as_str(), secret_number.to_string().as_str());process::exit(0)},
+	"help" => |_, _| {println!("Placeholder command")}
+};
 
 pub fn validate_command_name(raw_input: &str) -> bool {
 	//! Note: If this function returns true, this doesn't necesarily mean that the inputted "str" is a command
@@ -9,29 +19,13 @@ pub fn validate_command_name(raw_input: &str) -> bool {
 	raw_input.trim().chars().all(|ch| ch.is_ascii_alphabetic() || ch == ' ')
 }
 
-pub fn execute_command(raw_input: &str) {
+pub fn execute_command(raw_input: &str, locale: &Localization, secret_number: u32) -> bool {
 	// Begin by trimming the input
 	let input = raw_input.trim();
-
-	// The match statement executes the command
-	let mut split_input = input.split(" ");
-	let f = split_input.next().unwrap_or("");
-	match f {
-		"change" => {
-			match split_input.next().unwrap_or("") {
-				"locale" => {
-					// Firstly, get a list with all the valid locales
-					let locales_list = get_locales_list("locales");
-					// Then, prompt the user to select a locale
-					let selected_locale_name = select_locale(&locales_list, "locales");
-					// Lastly, save selected locale to "options.json" and exit
-					change_locale(&selected_locale_name);
-					println!("Changed locale, restarting program...");
-					process::exit(0);
-				},
-				_ => ()
-			}
-		},
-		_ => ()
+	// Then, check if the string entered exists in COMMANDS_MAP
+	match COMMANDS_MAP.get(input) {
+		// If yes, run the command
+		Some(func) => {func(locale, secret_number);true},
+		None => false
 	}
 }
