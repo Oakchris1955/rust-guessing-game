@@ -72,11 +72,39 @@ pub mod structures {
 		pub info_messages: InfoMessages,
 	}
 
+	#[derive(Deserialize, Debug)]
+	pub struct CommDescs {
+		pub quit: String,
+		pub reset: String,
+		pub help: String
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct CommText {
+		pub quit: String,
+		pub reset: String
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct CommErrs {
+		pub cant_read_dir: String,
+		pub cant_read_file_in_path: String,
+		pub cant_remove_file: String
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct Commands {
+		pub descriptions: CommDescs,
+		pub text: CommText,
+		pub errors: CommErrs
+	}
+
 	// This will be the only module part accessible from outside
 	#[derive(Deserialize, Debug)]
 	pub struct Localization {
 		pub lang_title: String,
 		pub messages: Messages,
+		pub commands: Commands
 	}
 }
 
