@@ -42,5 +42,21 @@
 				}
 			}
 		}
+	},
+	"commands": {
+		"descriptions": {
+			"quit": "",
+			"reset": "",
+			"help": ""
+		},
+		"text": {
+			"quit": "{}", // The format argument is the secret number
+			"reset": ""
+		},
+		"errors": {
+			"cant_read_dir": "{}", // The format argument is the directory path
+			"cant_read_file_in_path": "{}", // The format argument is the parent path of the file
+			"cant_remove_file": "{}" // The format argument if the local path of the file
+		}
 	}
 }

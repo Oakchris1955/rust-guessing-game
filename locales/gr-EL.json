@@ -42,5 +42,21 @@
 				}
 			}
 		}
+	},
+	"commands": {
+		"descriptions": {
+			"quit": "Μια απλή εντολή για το κλείσιμο το προγράμματος χωρίς να προκληθεί κάποιο σφάλμα",
+			"reset": "Επαναφέρει όλες τις ρυθμίσεις παραμέτρων χρήστη. Δεν μπορεί να αναιρεθεί",
+			"help": "Αυτή είναι η εντολή βοήθειας. Την χρησιμοποιέιτε αυτή τη στιγμή"
+		},
+		"text": {
+			"quit": "Έξοδος προγράμματος. Ο μυστικός αριθμός ήταν {}", // The format argument is the secret number
+			"reset": "Επαναφορά προγράμματος. Έξοδος..."
+		},
+		"errors": {
+			"cant_read_dir": "Ένα σφάλμα συνέβη κατά τη διάρκεια ανάγνωσης του ευρετηρίου {}. Εάν αυτό συνεχίσει να συμβαίνει, αναφέρετε το στο: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument is the directory path
+			"cant_read_file_in_path": "Ένα σφάλμα συνέβη κατά τη διάρκεια της ανάγνωσης ενός αρχείου στο ευρετήριο {}. Εάν αυτό συνεχίσει να συμβαίνει, αναφέρετε το στο: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument is the parent path of the file
+			"cant_remove_file": "Ένα σφάλμα συνέβη κατά τη διάρκεια της αφαίρεσης του αρχείου {}. Εάν αυτό συνεχίσει να συμβαίνει, αναφέρετε το στο: https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument if the local path of the file
+		}
 	}
 }
