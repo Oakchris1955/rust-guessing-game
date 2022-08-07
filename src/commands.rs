@@ -55,7 +55,7 @@ fn get_user_commands(locale: &Localization) -> Vec<Command> {
 	let commands_vec: Vec<(&'static str, &'static [&'static str], (fn(&Localization, u32), &str))> = vec![
 		("quit", &["q"], (comm_funcs::QUIT, &locale.commands.descriptions.quit)),
 		("reset", &["r"], (comm_funcs::RESET, &locale.commands.descriptions.reset)),
-		("help", &["h"], (comm_funcs::HELP, &locale.commands.descriptions.help))
+		("help", &[], (comm_funcs::HELP, &locale.commands.descriptions.help))
 	];
 	// For those wondering, no, unfortunately the variable can't be a static because we need the locale
 	
@@ -85,11 +85,15 @@ mod comm_funcs {
 
 	pub static HELP: fn(&Localization, u32) = |locale: &Localization, _secret_number: u32| {
 		for entry in super::get_user_commands(locale) {
-			// Store some entry properties
-			let entry_name = entry.name;
-			let entry_description = entry.description;
 			// Print them
-			println!("{} - {}", entry_name, entry_description);
+			if entry.aliases.is_empty() {
+				println!("{} - {}", entry.name, entry.description);
+			} else {
+				let mut aliases_str = entry.aliases.iter().map(|alias| format!("{}, ", alias)).collect::<String>();
+				let aliases_str_len = aliases_str.chars().count();
+				aliases_str.truncate(aliases_str_len-2);
+				println!("{} (AKA {}) - {}", entry.name, aliases_str, entry.description);
+			}
 		};
 	};
 
