@@ -151,11 +151,6 @@ fn get_user_input(msg: &str, secret_number: u32, locale: &Localization) -> u32 {
 		let command_entered = if validate_command_name(&user_input.as_str()) {execute_command(&user_input.as_str(), locale, secret_number)} else {false};
 		// If entered a command, skip rest of loop
 		if command_entered {continue;}
-		if user_input.trim() == "q" {
-			// if yes, successfully exit the program and display a message
-			println!("{}", format_once(locale.messages.info_messages.user_exit.as_str(), secret_number.to_string().as_str()));
-			process::exit(0);
-		}
 
 		// try turning the input string to a u32 type
         match user_input.trim().parse::<u32>() {
