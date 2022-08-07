@@ -19,11 +19,13 @@ use serde::{Serialize, Deserialize};
 
 // Include module locales...
 mod locales;
-mod commands;
-use commands::*;
 // ...and include Localization struct and all the functions of the module
 use locales::structures::Localization;
 use locales::functions::*;
+
+// Also, include modules commands and everything on it
+mod commands;
+use commands::*;
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(default)]
