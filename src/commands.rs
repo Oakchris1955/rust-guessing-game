@@ -92,7 +92,7 @@ mod comm_funcs {
 				let mut aliases_str = entry.aliases.iter().map(|alias| format!("{}, ", alias)).collect::<String>();
 				let aliases_str_len = aliases_str.chars().count();
 				aliases_str.truncate(aliases_str_len-2);
-				println!("{} (AKA {}) - {}", entry.name, aliases_str, entry.description);
+				println!("{} ({}) - {}", entry.name, aliases_str, entry.description);
 			}
 		};
 	};
