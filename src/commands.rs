@@ -143,7 +143,7 @@ mod comm_funcs {
 			}
 		}
 		// Print a small text and exit program
-		//println!("{}", locale.commands.texts.reset.as_str())
+		println!("{}", locale.commands.text.reset.as_str());
 		process::exit(0);
 	};
 }
