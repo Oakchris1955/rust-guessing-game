@@ -46,7 +46,7 @@
 	"commands": {
 		"descriptions": {
 			"quit": "A simple command to exit program without raising an error",
-			"reset": "Resets all user configuration (and locales). Can't be undone",
+			"reset": "Resets all user configuration. Can't be undone",
 			"help": "This is the help command. You are using it right now"
 		},
 		"text": {
