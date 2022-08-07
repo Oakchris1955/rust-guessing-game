@@ -16,40 +16,6 @@ impl Command {
 	}
 }
 
-/*lazy_static! {
-	static ref LOCALE: Localization = {
-		let options = if let JSONResults::JSONOptions(option) = get_json_info(true) {
-			Some(option)
-		} else {None}.unwrap();
-
-		get_localization_info(&options.locale_name, "locales")
-	};
-	// Static that stores all the commands the user can input}
-	//let commands = [];
-	static ref COMMANDS_MAP: HashMap<&'static str, (fn(&Localization, u32), &'static str)> = 
-	[("q", (comm_funcs::quit, &LOCALE.commands.descriptions.quit))]
-	.into_iter().collect();
-	/*
-	static ref COMMANDS_MAP: phf::Map<&'static str, (fn(&Localization, u32), &'static str)> = 
-		phf_map! (
-			"q" => (comm_funcs::quit, &LOCALE.commands.descriptions.quit),
-			"quit" => (comm_funcs::quit, &LOCALE.commands.descriptions.quit),
-			"reset" => (comm_funcs::reset, &LOCALE.commands.descriptions.reset),
-			"help" => (comm_funcs::help, ""),
-			"?" => (comm_funcs::help, "")
-		);*/
-}*/
-
-// Function to get all the commands the user can input
-/*fn get_user_commands(locale: &Localization) -> HashMap<&'static str, (impl Fn(), &'static str)> {
-	("q", (|| comm_funcs::quit, locale.commands.descriptions.quit))
-}
-lazy_static! {
-	static ref COMMANDS_VEC: Vec<(&'static str, &'static [&'static str], (fn(&Localization, u32), &'static str))> = vec![
-		("quit", &["q"], (comm_funcs::HELP, &"this is the quit command"))
-	];
-}*/
-
 fn get_user_commands(locale: &Localization) -> Vec<Command> {
 	// Edit this variable to alter the commands
 	let commands_vec: Vec<(&'static str, &'static [&'static str], (fn(&Localization, u32), &str))> = vec![

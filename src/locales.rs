@@ -347,15 +347,7 @@ pub mod functions {
 		}
 	}
 
-	pub fn change_locale(selected_locale_name: &String) -> Localization {/*
-		// Firstly, get a list with all the valid locales
-		let locales_list = get_locales_list("locales");
-		// Then, prompt the user to select a locale
-		let selected_locale_name = select_locale(&locales_list, "locales");
-		// Then, get the Localization object for the selected locale
-		let selected_locale = get_localization_info(&selected_locale_name, "locales");*/
-		
-		
+	pub fn change_locale(selected_locale_name: &String) -> Localization {
 		// Begin by getting the localization info
 		// Firstly, get the json options and save them as a variable
 
