@@ -95,7 +95,7 @@ pub mod structures {
 	#[derive(Deserialize, Debug)]
 	pub struct Commands {
 		pub descriptions: CommDescs,
-		pub text: CommText,
+		pub various_texts: CommText,
 		pub errors: CommErrs
 	}
 

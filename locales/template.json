@@ -49,7 +49,7 @@
 			"reset": "",
 			"help": ""
 		},
-		"text": {
+		"various_texts": {
 			"quit": "{}", // The format argument is the secret number
 			"reset": ""
 		},

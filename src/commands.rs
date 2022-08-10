@@ -103,7 +103,7 @@ mod comm_funcs {
 	};
 
 	pub static QUIT: fn(&Localization, u32, SplitWhitespace) = |locale: &Localization, secret_number: u32, _split: SplitWhitespace| {
-		println!("{}", format_once(locale.messages.info_messages.user_exit.as_str(), secret_number.to_string().as_str()));
+		println!("{}", format_once(locale.commands.various_texts.quit.as_str(), secret_number.to_string().as_str()));
 		process::exit(0);
 	};
 
@@ -148,7 +148,7 @@ mod comm_funcs {
 			}
 		}
 		// Print a small text and exit program
-		println!("{}", locale.commands.text.reset.as_str());
+		println!("{}", locale.commands.various_texts.reset.as_str());
 		process::exit(0);
 	};
 }

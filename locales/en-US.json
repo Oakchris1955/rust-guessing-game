@@ -49,7 +49,7 @@
 			"reset": "Resets all user configuration. Can't be undone",
 			"help": "This is the help command. You are using it right now"
 		},
-		"text": {
+		"various_texts": {
 			"quit": "Exiting program. The secret number was {}", // The format argument is the secret number
 			"reset": "Program resetted. Exiting..."
 		},
