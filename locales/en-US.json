@@ -47,16 +47,27 @@
 		"descriptions": {
 			"quit": "A simple command to exit program without raising an error",
 			"reset": "Resets all user configuration. Can't be undone",
-			"help": "This is the help command. You are using it right now"
+			"help": "This is the help command. You are using it right now",
+			"change": "A command that allows you to modify program parameters"
 		},
 		"various_texts": {
+			// The texts with command names will probably be the last output of the command
 			"quit": "Exiting program. The secret number was {}", // The format argument is the secret number
-			"reset": "Program resetted. Exiting..."
+			"reset": "Program resetted. Exiting...",
+			"change": "Data saved. Exiting...",
+			"no_selection": "User didn't select anything",
+			"no_params": "Expected at least 1 parameter",
+			"selection_prompts": {
+				"max": "Please select the value for the max number in range",
+				"min": "Please select the value for the minimum number in range",
+				"tries": "Please select the value for the total number of tries"
+			}
 		},
 		"errors": {
 			"cant_read_dir": "An error occured while trying to read directory {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument is the directory path
 			"cant_read_file_in_path": "An error occured while trying to read file in path {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument is the parent path of the file
-			"cant_remove_file": "An error occured while trying to remove file {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument if the local path of the file
+			"cant_remove_file": "An error occured while trying to remove file {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument if the local path of the file
+			"cant_write_to_file": "An error occured while trying to write data to file {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument is the file name
 		}
 	}
 }

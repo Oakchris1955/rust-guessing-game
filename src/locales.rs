@@ -76,20 +76,33 @@ pub mod structures {
 	pub struct CommDescs {
 		pub quit: String,
 		pub reset: String,
-		pub help: String
+		pub help: String,
+		pub change: String
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct SelectionPrompts {
+		pub max: String,
+		pub min: String,
+		pub tries: String
 	}
 
 	#[derive(Deserialize, Debug)]
 	pub struct CommText {
 		pub quit: String,
-		pub reset: String
+		pub reset: String,
+		pub change: String,
+		pub no_selection: String,
+		pub no_params: String,
+		pub selection_prompts: SelectionPrompts
 	}
 
 	#[derive(Deserialize, Debug)]
 	pub struct CommErrs {
 		pub cant_read_dir: String,
 		pub cant_read_file_in_path: String,
-		pub cant_remove_file: String
+		pub cant_remove_file: String,
+		pub cant_write_to_file: String
 	}
 
 	#[derive(Deserialize, Debug)]

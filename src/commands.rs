@@ -22,7 +22,7 @@ fn get_user_commands(locale: &Localization) -> Vec<Command> {
 	let commands_vec: Vec<(&'static str, &'static [&'static str], (fn(&Localization, u32, SplitWhitespace), &str))> = vec![
 		("quit", &["q"], (comm_funcs::QUIT, &locale.commands.descriptions.quit)),
 		("reset", &["r"], (comm_funcs::RESET, &locale.commands.descriptions.reset)),
-		("change", &[], (comm_funcs::CHANGE, "lol")),
+		("change", &[], (comm_funcs::CHANGE, &locale.commands.descriptions.change)),
 		("help", &["?"], (comm_funcs::HELP, &locale.commands.descriptions.help))
 	];
 	// For those wondering, no, unfortunately the variable can't be a static because we need the locale
@@ -46,12 +46,16 @@ fn get_user_commands(locale: &Localization) -> Vec<Command> {
 mod comm_funcs {
 	// Include locale module's functions and Localization struct
 	use crate::locales::{functions::*, structures::Localization};
-	// Include process module to terminate program when needed
+	use std::io::Write;
+// Include process module to terminate program when needed
 	use std::process;
 	// Include built-in module fs to edit files and directories
 	use std::fs;
 	// Include struct SplitWhitespace in case a command needs parameters, for example "change locale"
 	use std::str::SplitWhitespace;
+
+	use std::io;
+	use std::num::IntErrorKind;
 
 	use crate::{get_json_info, JSONResults};
 	use serde_json::{self, json};
@@ -70,12 +74,12 @@ mod comm_funcs {
 		};
 	};
 
-	pub static CHANGE: fn(&Localization, u32, SplitWhitespace) = |_locale: &Localization, _secret_number: u32, mut split: SplitWhitespace| {
+	pub static CHANGE: fn(&Localization, u32, SplitWhitespace) = |locale: &Localization, _secret_number: u32, mut split: SplitWhitespace| {
 		// Begin by checking how many parameters were entered (doesn't include command name)
 		let split_size = split.clone().count();
 		if split_size == 0 {
 			// If no parameters were entered, print a message
-			println!("Expected at least 1 argument");
+			println!("{}", locale.commands.various_texts.no_params);
 		} else if split_size >= 1 {
 			// If 1 parameter or more were inputted, save the 1st parameter as variable "main_arg"
 			let main_arg = split.next().unwrap();
@@ -87,7 +91,7 @@ mod comm_funcs {
 				let selected_locale_options = select_locale(&locales_list, "locales");
 				let selected_locale_name = match selected_locale_options {
 					Some(name) => name,
-					None => {println!("User didn't select anything");return}
+					None => {println!("{}", locale.commands.various_texts.no_selection);return}
 				};
 				// Then, save it at options.json after getting the current contents of options.json
 				let mut json_options = if let JSONResults::Value(option) = get_json_info(false) {
@@ -95,9 +99,50 @@ mod comm_funcs {
 				} else {None}.unwrap();
 				json_options["locale_name"] = json!(selected_locale_name);
 				match fs::write("config/options.json", json_options.to_string()) {
-					Ok(_) => {println!("Data saved. Exiting...");process::exit(0)},
-					Err(_err) => {eprintln!("An error occured while trying to write to file {}. Exiting...", "config/options.json");process::exit(1)}
+					Ok(_) => {println!("{}", locale.commands.various_texts.change);process::exit(0)},
+					Err(_err) => {eprintln!("{}", format_once(locale.commands.errors.cant_write_to_file.as_str(), "config/options.json"));process::exit(1)}
 				}
+			} else if ["max", "min", "tries"].iter().find(|elem| elem == &&main_arg).is_some() { // The process for editing all these 3 is pretty much the same, that's why this statement if for all of them
+				// Get "config/options.json" contents
+				let mut json_options = if let JSONResults::Value(option) = get_json_info(false) {
+					Some(option)
+				} else {None}.unwrap();
+				// Then, get a user input
+				let number = loop {
+					// Begin by printing a message
+					let prompt = if main_arg == "max" {&locale.commands.various_texts.selection_prompts.max} else if main_arg == "min" {&locale.commands.various_texts.selection_prompts.min} else {&locale.commands.various_texts.selection_prompts.tries};
+					print!("{}: ", prompt);
+					match io::stdout().flush() {
+						Ok(_) => (),
+						Err(_error) => continue
+					}
+					let mut user_input = String::new();
+					
+					match io::stdin().read_line(&mut user_input) {
+						Ok(_) => {if user_input.trim() == "q" {println!("{}", locale.commands.various_texts.no_selection);return} else {match user_input.trim().parse::<u32>() {
+							Ok(value) => break value,
+							Err(err) => match err.kind() {
+								IntErrorKind::Empty => println!("{}", locale.messages.error_messages.input_errors.empty),
+								IntErrorKind::InvalidDigit => println!("{}", locale.messages.error_messages.input_errors.invalid_digit),
+								IntErrorKind::PosOverflow => println!("{}", locale.messages.error_messages.input_errors.pos_overflow),
+								IntErrorKind::NegOverflow => println!("{}", locale.messages.error_messages.input_errors.neg_overflow),
+								IntErrorKind::Zero => println!("{}", locale.messages.error_messages.input_errors.zero),
+								_ => panic!("{}", format_once(locale.messages.error_messages.input_errors.unknown_err.as_str(), format!("{err}").as_str()))
+							}
+						}}},
+						Err(_error) => {
+							// if an error occured while reading line, then skip rest of loop using continue
+							continue;
+						}
+					}
+				};
+				json_options[main_arg] = json!(number);
+				match fs::write("config/options.json", json_options.to_string()) {
+					Ok(_) => {println!("{}", locale.commands.various_texts.change);process::exit(0)},
+					Err(_err) => {eprintln!("{}", format_once(locale.commands.errors.cant_write_to_file.as_str(), "config/options.json"));process::exit(1)}
+				}
+			} else {
+
 			}
 		}
 	};
