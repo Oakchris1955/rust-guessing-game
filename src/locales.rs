@@ -238,7 +238,7 @@ pub mod functions {
 	
 	}
 
-	pub fn select_locale(locales_vec: &Vec<String>, locales_path: &str) -> String {
+	pub fn select_locale(locales_vec: &Vec<String>, locales_path: &str) -> Option<String> {
 		// Begin by creating an empty HashMap to store the locales according to their language
 		let mut locales_hash: HashMap<String, String> = HashMap::new();
 
@@ -331,8 +331,7 @@ pub mod functions {
 
 			// Before checking if supplied locale exists, check if "q" inputted
 			if user_input.trim() == "q" {
-				println!("Exiting program.");
-				process::exit(0);
+				return None;
 			}
 
 			// Check if supplied locale exists
@@ -340,7 +339,7 @@ pub mod functions {
 			match result_locale {
 				Some(_locale_name) => {
 					// If yes, return from the function
-					return user_input.trim().to_string();
+					return Some(user_input.trim().to_string());
 				},
 				None => println!("Please select a valid language") // Else, repeat the loop again
 			}

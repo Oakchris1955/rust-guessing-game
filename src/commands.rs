@@ -84,7 +84,11 @@ mod comm_funcs {
 				// Firstly, get a list with all the valid locales
 				let locales_list = get_locales_list("locales");
 				// Then, prompt the user to select a locale
-				let selected_locale_name = select_locale(&locales_list, "locales");
+				let selected_locale_options = select_locale(&locales_list, "locales");
+				let selected_locale_name = match selected_locale_options {
+					Some(name) => name,
+					None => {println!("User didn't select anything");return}
+				};
 				// Then, save it at options.json after getting the current contents of options.json
 				let mut json_options = if let JSONResults::Value(option) = get_json_info(false) {
 					Some(option)

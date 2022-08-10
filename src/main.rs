@@ -183,7 +183,7 @@ fn main() {
 		// Firstly, get a list with all the valid locales
 		let locales_list = get_locales_list("locales");
 		// Then, prompt the user to select a locale
-		let selected_locale_name = select_locale(&locales_list, "locales");
+		let selected_locale_name = select_locale(&locales_list, "locales").unwrap_or_else(|| {println!("Exiting program.");process::exit(0);});
 		// Then, get the Localization object for the selected locale
 		let selected_locale = change_locale(&selected_locale_name);
 
