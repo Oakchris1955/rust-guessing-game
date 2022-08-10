@@ -1,10 +1,11 @@
 // Include locale module's Localization struct
 use crate::locales::structures::Localization;
+use std::str::Split;
 
 struct Command {
 	name: &'static str,
 	aliases: Vec<&'static str>,
-	command: fn(&Localization, u32),
+	command: fn(&Localization, u32, Split<&str>),
 	description: String
 }
 
@@ -18,7 +19,7 @@ impl Command {
 
 fn get_user_commands(locale: &Localization) -> Vec<Command> {
 	// Edit this variable to alter the commands
-	let commands_vec: Vec<(&'static str, &'static [&'static str], (fn(&Localization, u32), &str))> = vec![
+	let commands_vec: Vec<(&'static str, &'static [&'static str], (fn(&Localization, u32, Split<&str>), &str))> = vec![
 		("quit", &["q"], (comm_funcs::QUIT, &locale.commands.descriptions.quit)),
 		("reset", &["r"], (comm_funcs::RESET, &locale.commands.descriptions.reset)),
 		("help", &[], (comm_funcs::HELP, &locale.commands.descriptions.help))
@@ -48,8 +49,10 @@ mod comm_funcs {
 	use std::process;
 	// Include built-in module fs to edit files and directories
 	use std::fs;
+	// Include struct Split in case a command need parameters, for example "change locale"
+	use std::str::Split;
 
-	pub static HELP: fn(&Localization, u32) = |locale: &Localization, _secret_number: u32| {
+	pub static HELP: fn(&Localization, u32, Split<&str>) = |locale: &Localization, _secret_number: u32, _split: Split<&str>| {
 		for entry in super::get_user_commands(locale) {
 			// Print them
 			if entry.aliases.is_empty() {
@@ -63,12 +66,12 @@ mod comm_funcs {
 		};
 	};
 
-	pub static QUIT: fn(&Localization, u32) = |locale: &Localization, secret_number: u32| {
+	pub static QUIT: fn(&Localization, u32, Split<&str>) = |locale: &Localization, secret_number: u32, _split: Split<&str>| {
 		println!("{}", format_once(locale.messages.info_messages.user_exit.as_str(), secret_number.to_string().as_str()));
 		process::exit(0);
 	};
 
-	pub static RESET: fn(&Localization, u32) = |locale: &Localization, _secret_number: u32| {
+	pub static RESET: fn(&Localization, u32, Split<&str>) = |locale: &Localization, _secret_number: u32, _split: Split<&str>| {
 		// Define some variables to know what to remove and what not
 		let to_remove_paths: Vec<&str> = ["config"].to_vec();
 		let to_exclude_paths: Vec<&str> = [].to_vec();
@@ -122,7 +125,7 @@ pub fn execute_command(raw_input: &str, locale: &Localization, secret_number: u3
 	// Then, check if the string entered exists in COMMANDS_MAP
 	match commands.iter().find(|comm| comm.get_names().iter().find(|name| name == &&input).is_some()) {
 		// If yes, run the command
-		Some(content) => {(content.command)(locale, secret_number);true},
+		Some(content) => {(content.command)(locale, secret_number, input.split(" "));true},
 		None => false
 	}
 }
