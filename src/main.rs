@@ -150,7 +150,7 @@ fn get_user_input(msg: &str, secret_number: u32, locale: &Localization) -> u32 {
 		}
 
 		// before doing anything else, check if user entered a command or "q"
-		let command_entered = if validate_command_name(&user_input.as_str()) {execute_command(&user_input.as_str(), locale, secret_number)} else {false};
+		let command_entered = execute_command(&user_input.as_str(), locale, secret_number);
 		// If entered a command, skip rest of loop
 		if command_entered {continue;}
 

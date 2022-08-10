@@ -115,13 +115,6 @@ mod comm_funcs {
 }
 
 
-pub fn validate_command_name(raw_input: &str) -> bool {
-	//! Note: If this function returns true, this doesn't necesarily mean that the inputted "str" is a command
-
-	// Check if all chars all alphabetic and return the result value
-	raw_input.trim().chars().all(|ch| ch.is_ascii_alphabetic() || ch == ' ')
-}
-
 pub fn execute_command(raw_input: &str, locale: &Localization, secret_number: u32) -> bool {
 	let commands = get_user_commands(locale);
 	// Begin by trimming the input
