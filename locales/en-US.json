@@ -74,8 +74,8 @@
 			"no_selection": "User didn't select anything",
 			"no_params": "Expected at least 1 parameter",
 			"selection_prompts": {
-				"max": "Please select the value for the max number in range",
-				"min": "Please select the value for the minimum number in range",
+				"max": "Please select the value for the max possible secret number in range",
+				"min": "Please select the value for the minimum possible secret number in range",
 				"tries": "Please select the value for the total number of tries"
 			}
 		},
