@@ -104,9 +104,9 @@ pub mod structures {
 
 	#[derive(Deserialize, Debug)]
 	pub struct CommText {
-		pub quit: String,
-		pub reset: String,
-		pub change: String,
+		pub last_from_quit: String,
+		pub last_from_reset: String,
+		pub last_from_change: String,
 		pub no_selection: String,
 		pub no_params: String,
 		pub selection_prompts: SelectionPrompts

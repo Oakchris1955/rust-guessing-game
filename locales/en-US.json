@@ -68,9 +68,9 @@
 		},
 		"various_texts": {
 			// The texts with command names will probably be the last output of the command
-			"quit": "Exiting program. The secret number was {}", // The format argument is the secret number
-			"reset": "Program resetted. Exiting...",
-			"change": "Data saved. Exiting...",
+			"last_from_quit": "Exiting program. The secret number was {}", // The format argument is the secret number
+			"last_from_reset": "Program resetted. Exiting...",
+			"last_from_change": "Data saved. Exiting...",
 			"no_selection": "User didn't select anything",
 			"no_params": "Expected at least 1 parameter",
 			"selection_prompts": {
