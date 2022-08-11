@@ -72,13 +72,14 @@ pub mod structures {
 		pub info_messages: InfoMessages,
 	}
 
+	/*
 	#[derive(Deserialize, Debug)]
 	pub struct CommDescs {
 		pub quit: String,
 		pub reset: String,
 		pub help: String,
 		pub change: String
-	}
+	}*/
 
 	#[derive(Deserialize, Debug)]
 	pub struct SelectionPrompts {
@@ -136,7 +137,7 @@ pub mod structures {
 
 	#[derive(Deserialize, Debug)]
 	pub struct Commands {
-		pub descriptions: CommDescs,
+		//pub descriptions: CommDescs,
 		pub info: CommInfo,
 		pub various_texts: CommText,
 		pub errors: CommErrs
