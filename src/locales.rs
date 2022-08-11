@@ -120,8 +120,24 @@ pub mod structures {
 	}
 
 	#[derive(Deserialize, Debug)]
+	pub struct TemplateCommand {
+		pub name: String,
+		pub aliases: Vec<String>,
+		pub description: String
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct CommInfo {
+		pub quit: TemplateCommand,
+		pub reset: TemplateCommand,
+		pub change: TemplateCommand,
+		pub help: TemplateCommand
+	}
+
+	#[derive(Deserialize, Debug)]
 	pub struct Commands {
 		pub descriptions: CommDescs,
+		pub info: CommInfo,
 		pub various_texts: CommText,
 		pub errors: CommErrs
 	}

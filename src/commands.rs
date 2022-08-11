@@ -3,27 +3,28 @@ use crate::locales::structures::Localization;
 use std::str::SplitWhitespace;
 
 struct Command {
-	name: &'static str,
-	aliases: Vec<&'static str>,
+	name: String,
+	aliases: Vec<String>,
 	command: fn(&Localization, u32, SplitWhitespace),
 	description: String
 }
 
 impl Command {
-	pub fn get_names(&self) -> Vec<&str> {
+	pub fn get_names(&self) -> Vec<String> {
 		let mut aliases = self.aliases.clone();
-		aliases.push(self.name);
+		aliases.push(self.name.to_string());
 		aliases
 	}
 }
 
 fn get_user_commands(locale: &Localization) -> Vec<Command> {
-	// Edit this variable to alter the commands
-	let commands_vec: Vec<(&'static str, &'static [&'static str], (fn(&Localization, u32, SplitWhitespace), &str))> = vec![
-		("quit", &["q"], (comm_funcs::QUIT, &locale.commands.descriptions.quit)),
-		("reset", &["r"], (comm_funcs::RESET, &locale.commands.descriptions.reset)),
-		("change", &[], (comm_funcs::CHANGE, &locale.commands.descriptions.change)),
-		("help", &["?"], (comm_funcs::HELP, &locale.commands.descriptions.help))
+	// Edit these variables to alter the commands
+	let fast_info = &locale.commands.info;
+	let commands_vec: &[(&String, &Vec<String>, (fn(&Localization, u32, SplitWhitespace), &String))] = &[
+		(&fast_info.quit.name, &fast_info.quit.aliases, (comm_funcs::QUIT, &fast_info.quit.description)),
+		(&fast_info.reset.name, &fast_info.reset.aliases, (comm_funcs::RESET, &fast_info.reset.description)),
+		(&fast_info.change.name, &fast_info.change.aliases, (comm_funcs::CHANGE, &fast_info.change.description)),
+		(&fast_info.help.name, &fast_info.help.aliases, (comm_funcs::HELP, &fast_info.help.description))
 	];
 	// For those wondering, no, unfortunately the variable can't be a static because we need the locale
 	
@@ -31,7 +32,7 @@ fn get_user_commands(locale: &Localization) -> Vec<Command> {
 
 	for comm in commands_vec.iter() {
 		let local_command = Command {
-			name: comm.0,
+			name: comm.0.to_owned(),
 			aliases: comm.1.to_vec(),
 			command: comm.2.0,
 			description: comm.2.1.to_owned()

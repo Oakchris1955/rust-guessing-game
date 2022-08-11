@@ -50,6 +50,28 @@
 			"help": "This is the help command. You are using it right now",
 			"change": "A command that allows you to modify program parameters"
 		},
+		"info": {
+			"quit": {
+				"name": "quit",
+				"aliases": ["q"],
+				"description": "A simple command to exit program without raising an error"
+			},
+			"reset": {
+				"name" : "reset",
+				"aliases": ["r"],
+				"description": "Resets all user configuration. Can't be undone"
+			},
+			"help": {
+				"name": "help",
+				"aliases": ["?"],
+				"description": "This is the help command. You are using it right now"
+			},
+			"change": {
+				"name": "change",
+				"aliases": ["new"],
+				"description": "A command that allows you to modify program parameters"
+			}
+		},
 		"various_texts": {
 			// The texts with command names will probably be the last output of the command
 			"quit": "Exiting program. The secret number was {}", // The format argument is the secret number
