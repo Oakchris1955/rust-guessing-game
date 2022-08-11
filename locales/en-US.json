@@ -63,7 +63,7 @@
 			"change": {
 				"name": "change",
 				"aliases": ["new"],
-				"description": "A command that allows you to modify program parameters"
+				"description": "A command that allows you to modify program parameters. These are:\n\t1) The maximum and... \n\t2) The minimum number possible for the secret number\n\t3) The total number of tries to find the secret number"
 			}
 		},
 		"various_texts": {
