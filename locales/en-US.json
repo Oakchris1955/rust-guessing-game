@@ -85,5 +85,6 @@
 			"cant_remove_file": "An error occured while trying to remove file {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument if the local path of the file
 			"cant_write_to_file": "An error occured while trying to write data to file {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument is the file name
 		}
-	}
+	},
+	"credits": "This program was mainly programmed by Oakchris1955 who also made the Greek locale, while MoDerPo made the German locale"
 }

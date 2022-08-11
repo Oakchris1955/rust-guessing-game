@@ -73,6 +73,8 @@ mod comm_funcs {
 				println!("{} ({}) - {}", entry.name, aliases_str, entry.description);
 			}
 		};
+		// Also, print the credits
+		println!("{}", &locale.credits);
 	};
 
 	pub static CHANGE: fn(&Localization, u32, SplitWhitespace) = |locale: &Localization, _secret_number: u32, mut split: SplitWhitespace| {
@@ -100,7 +102,7 @@ mod comm_funcs {
 				} else {None}.unwrap();
 				json_options["locale_name"] = json!(selected_locale_name);
 				match fs::write("config/options.json", json_options.to_string()) {
-					Ok(_) => {println!("{}", locale.commands.various_texts.change);process::exit(0)},
+					Ok(_) => {println!("{}", locale.commands.various_texts.last_from_change);process::exit(0)},
 					Err(_err) => {eprintln!("{}", format_once(locale.commands.errors.cant_write_to_file.as_str(), "config/options.json"));process::exit(1)}
 				}
 			} else if ["max", "min", "tries"].iter().find(|elem| elem == &&main_arg).is_some() { // The process for editing all these 3 is pretty much the same, that's why this statement if for all of them
@@ -139,7 +141,7 @@ mod comm_funcs {
 				};
 				json_options[main_arg] = json!(number);
 				match fs::write("config/options.json", json_options.to_string()) {
-					Ok(_) => {println!("{}", locale.commands.various_texts.change);process::exit(0)},
+					Ok(_) => {println!("{}", locale.commands.various_texts.last_from_change);process::exit(0)},
 					Err(_err) => {eprintln!("{}", format_once(locale.commands.errors.cant_write_to_file.as_str(), "config/options.json"));process::exit(1)}
 				}
 			} else {
@@ -149,7 +151,7 @@ mod comm_funcs {
 	};
 
 	pub static QUIT: fn(&Localization, u32, SplitWhitespace) = |locale: &Localization, secret_number: u32, _split: SplitWhitespace| {
-		println!("{}", format_once(locale.commands.various_texts.quit.as_str(), secret_number.to_string().as_str()));
+		println!("{}", format_once(locale.commands.various_texts.last_from_quit.as_str(), secret_number.to_string().as_str()));
 		process::exit(0);
 	};
 
@@ -194,7 +196,7 @@ mod comm_funcs {
 			}
 		}
 		// Print a small text and exit program
-		println!("{}", locale.commands.various_texts.reset.as_str());
+		println!("{}", locale.commands.various_texts.last_from_reset.as_str());
 		process::exit(0);
 	};
 }

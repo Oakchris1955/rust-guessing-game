@@ -148,7 +148,8 @@ pub mod structures {
 	pub struct Localization {
 		pub lang_title: String,
 		pub messages: Messages,
-		pub commands: Commands
+		pub commands: Commands,
+		pub credits: String
 	}
 }
 
