@@ -110,7 +110,7 @@ mod comm_funcs {
 				// Then, get a user input
 				let number = loop {
 					// Begin by printing a message
-					let prompt = if main_arg == "max" {&locale.commands.various_texts.selection_prompts.max} else if main_arg == "min" {&locale.commands.various_texts.selection_prompts.min} else {&locale.commands.various_texts.selection_prompts.tries};
+					let prompt = &locale.commands.various_texts.selection_prompts[main_arg]; //if main_arg == "max" {&locale.commands.various_texts.selection_prompts.max} else if main_arg == "min" {&locale.commands.various_texts.selection_prompts.min} else {&locale.commands.various_texts.selection_prompts.tries};
 					print!("{}: ", prompt);
 					match io::stdout().flush() {
 						Ok(_) => (),

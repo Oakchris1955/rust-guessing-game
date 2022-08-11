@@ -87,6 +87,20 @@ pub mod structures {
 		pub tries: String
 	}
 
+	use std::ops::Index;
+
+	impl Index<&str> for SelectionPrompts {
+		type Output = str;
+		fn index(&self, s: &str) -> &str {
+			match s {
+				"max" | "maxnumber" => &self.max,
+				"min" | "minnumber" => &self.min,
+				"tries" => &self.tries,
+				_ => "",
+			}
+		}
+	}
+
 	#[derive(Deserialize, Debug)]
 	pub struct CommText {
 		pub quit: String,
