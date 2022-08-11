@@ -44,16 +44,33 @@
 		}
 	},
 	"commands": {
-		"descriptions": {
-			"quit": "",
-			"reset": "",
-			"help": "",
-			"change": ""
+		"info": {
+			"quit": {
+				"name": "",
+				"aliases": [],
+				"description": ""
+			},
+			"reset": {
+				"name" : "",
+				"aliases": [""],
+				"description": ""
+			},
+			"help": {
+				"name": "",
+				"aliases": [""],
+				"description": ""
+			},
+			"change": {
+				"name": "",
+				"aliases": [""],
+				"description": ""
+			}
 		},
 		"various_texts": {
-			"quit": "{}", // The format argument is the secret number
-			"reset": "",
-			"change": "",
+			// The texts with command names will probably be the last output of the command
+			"last_from_quit": "{}", // The format argument is the secret number
+			"last_from_reset": "",
+			"last_from_change": "",
 			"no_selection": "",
 			"no_params": "",
 			"selection_prompts": {
@@ -66,7 +83,9 @@
 			"cant_read_dir": "{}", // The format argument is the directory path
 			"cant_read_file_in_path": "{}", // The format argument is the parent path of the file
 			"cant_remove_file": "{}", // The format argument if the local path of the file
-			"cant_write_to_file": "" // The format argument is the file name
+			"cant_write_to_file": "{}" // The format argument is the file name
 		}
-	}
+	},
+	// Yes, I didn't leave this like that on purpose
+	"credits": "This program was mainly programmed by Oakchris1955 who also made the Greek locale, while MoDerPo made the German locale"
 }
