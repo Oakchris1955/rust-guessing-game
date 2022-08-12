@@ -67,9 +67,10 @@ mod comm_funcs {
 			if entry.aliases.is_empty() {
 				println!("{} - {}", entry.name, entry.description);
 			} else {
-				let mut aliases_str = entry.aliases.iter().map(|alias| format!("{}, ", alias)).collect::<String>();
-				let aliases_str_len = aliases_str.chars().count();
-				aliases_str.truncate(aliases_str_len-2);
+				let mut aliases_str = entry.aliases.iter().map(|alias| format!("{alias}, ")).collect::<String>();
+				// We pop the last 2 characters because else a trimming ", " would appear
+				aliases_str.pop();
+				aliases_str.pop();
 				println!("{} ({}) - {}", entry.name, aliases_str, entry.description);
 			}
 		};
