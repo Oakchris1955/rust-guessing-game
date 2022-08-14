@@ -62,7 +62,7 @@ pub mod structures {
 	pub struct InfoMessages {
 		pub debug: DebugMessages,
 		pub welcome_message: String,
-		pub user_exit: String,
+		pub exit_pause_message: String,
 		pub game_messages: GameMessages,
 	}
 

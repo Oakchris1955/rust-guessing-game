@@ -18,7 +18,7 @@
 				"current_try": "Number of current guess: {}" // The format argument is the number of the current try
 			},
 			"welcome_message": "A simple guessing game. Made by Oakchris1955",
-			"user_exit": "Exiting program. The secret number was {}", // The format argument is the secret number
+			"exit_pause_message": "Press any key to exit . . .",
 			"game_messages": {
 				"first_try_messages": {
 					"beginning_message": "Alright, let's begin.",
