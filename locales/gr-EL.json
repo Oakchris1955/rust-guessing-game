@@ -67,6 +67,7 @@
 			}
 		},
 		"various_texts": {
+			// The texts with "last_from_COMMANDNAME" will probably be the last output of the command
 			"last_from_quit": "Έξοδος προγράμματος. Ο μυστικός αριθμός ήταν {}", // The format argument is the secret number
 			"last_from_reset": "Επαναφορά προγράμματος. Έξοδος...",
 			"last_from_change": "Τα δεδομένα αποθηκεύτηκαν. Έξοδος...",
