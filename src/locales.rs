@@ -169,7 +169,7 @@ pub mod functions {
 	use json_comments::StripComments;
 	// Include struct Localization from this file
 	use super::structures::Localization;
-	// Include serde(_json) and an error-related enum
+	// Include serde_json and an error-related enum
 	use serde_json::error::Category as serde_err_category;
 	use serde::Serialize;
 
