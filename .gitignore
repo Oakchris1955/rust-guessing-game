@@ -1,4 +1,4 @@
 /target
 Cargo.lock
 .vscode
-config/options.json
+config/options.jsonc

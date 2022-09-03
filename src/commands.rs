@@ -97,17 +97,17 @@ mod comm_funcs {
 					Some(name) => name,
 					None => {println!("{}", locale.commands.various_texts.no_selection);return}
 				};
-				// Then, save it at options.json after getting the current contents of options.json
+				// Then, save it at options.jsonc after getting the current contents of options.jsonc
 				let mut json_options = if let JSONResults::Value(option) = get_json_info(false) {
 					Some(option)
 				} else {None}.unwrap();
 				json_options["locale_name"] = json!(selected_locale_name);
-				match fs::write("config/options.json", json_options.to_string()) {
+				match fs::write("config/options.jsonc", json_options.to_string()) {
 					Ok(_) => {println!("{}", locale.commands.various_texts.last_from_change);process::exit(0)},
-					Err(_err) => {eprintln!("{}", format_once(locale.commands.errors.cant_write_to_file.as_str(), "config/options.json"));process::exit(1)}
+					Err(_err) => {eprintln!("{}", format_once(locale.commands.errors.cant_write_to_file.as_str(), "config/options.jsonc"));process::exit(1)}
 				}
 			} else if ["max", "min", "tries"].iter().find(|elem| elem == &&main_arg).is_some() { // The process for editing all these 3 is pretty much the same, that's why this statement if for all of them
-				// Get "config/options.json" contents
+				// Get "config/options.jsonc" contents
 				let mut json_options = if let JSONResults::Value(option) = get_json_info(false) {
 					Some(option)
 				} else {None}.unwrap();
@@ -141,9 +141,9 @@ mod comm_funcs {
 					}
 				};
 				json_options[main_arg] = json!(number);
-				match fs::write("config/options.json", json_options.to_string()) {
+				match fs::write("config/options.jsonc", json_options.to_string()) {
 					Ok(_) => {println!("{}", locale.commands.various_texts.last_from_change);process::exit(0)},
-					Err(_err) => {eprintln!("{}", format_once(locale.commands.errors.cant_write_to_file.as_str(), "config/options.json"));process::exit(1)}
+					Err(_err) => {eprintln!("{}", format_once(locale.commands.errors.cant_write_to_file.as_str(), "config/options.jsonc"));process::exit(1)}
 				}
 			} else {
 

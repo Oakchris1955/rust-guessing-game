@@ -214,7 +214,7 @@ pub mod functions {
 					let name_chars = name_str.chars();
 					// If no error occured, do some checks (check locales' path README for more info)
 					if {name_chars.clone().count() == 10 &&
-						name_chars.clone().skip(5).collect::<String>() == String::from(".json") &&
+						name_chars.clone().skip(5).collect::<String>() == String::from(".jsonc") &&
 						name_chars.clone().take(2).all(|x| x.is_lowercase()) &&
 						name_chars.clone().skip(2).take(1).all(|x| x=='-') &&
 						name_chars.clone().skip(3).take(2).all(|x| x.is_uppercase())
@@ -234,7 +234,7 @@ pub mod functions {
 	}
 	
 	pub fn get_localization_info(locale_name: &String, locale_path: &str) -> Localization {
-		let result_locale = fs::read_to_string(format!("{locale_path}/{locale_name}.json"));
+		let result_locale = fs::read_to_string(format!("{locale_path}/{locale_name}.jsonc"));
 	
 		let json_locale = match result_locale {
 			Ok(locale) => locale,
@@ -299,7 +299,7 @@ pub mod functions {
 			// This is a basically a copy of "get_json_info" function from "main"
 
 			// Read file contents
-			let contents = fs::read_to_string(format!("{locales_path}/{locale}.json"));
+			let contents = fs::read_to_string(format!("{locales_path}/{locale}.jsonc"));
 			
 			let mut json_str = String::new();
 
@@ -328,7 +328,7 @@ pub mod functions {
 						process::exit(1);
 					},
 					serde_err_category::Syntax => {
-						eprintln!("There was an error in the syntax of \"options.json\". Exiting...");
+						eprintln!("There was an error in the syntax of \"options.jsonc\". Exiting...");
 						process::exit(1);
 					},
 					serde_err_category::Data => {
@@ -409,17 +409,17 @@ pub mod functions {
 		// Then, get the Localization object for the selected locale
 		let selected_locale = get_localization_info(&selected_locale_name, "locales");
 
-		// Lastly, save locale to "options.json"
+		// Lastly, save locale to "options.jsonc"
 		// Stringify option but with changed locale
 		options["locale_name"] = selected_locale_name.clone().into();
 		let buf = Vec::new();
 		let formatter = serde_json::ser::PrettyFormatter::with_indent(b"	");
 		let mut ser = serde_json::Serializer::with_formatter(buf, formatter);
 		options.serialize(&mut ser).unwrap();
-		// Save to "options.json"
-		match fs::write("config/options.json", String::from_utf8(ser.into_inner()).unwrap()) {
+		// Save to "options.jsonc"
+		match fs::write("config/options.jsonc", String::from_utf8(ser.into_inner()).unwrap()) {
 			Err(err) => {
-				eprintln!("An error occured while saving locale to options.json. Error message is:\n{err}\nExiting...");
+				eprintln!("An error occured while saving locale to options.jsonc. Error message is:\n{err}\nExiting...");
 				process::exit(1);
 			},
 			Ok(_) => ()

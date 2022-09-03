@@ -42,7 +42,7 @@ pub struct JSONOptions {
 impl Default for JSONOptions {
 	fn default() -> Self {
 		Self {
-			// Edit these fields to change the defualt values for the game if they aren't found in "options.json"
+			// Edit these fields to change the defualt values for the game if they aren't found in "options.jsonc"
 			total_tries: 4,
 			max_number: 100,
 			min_number: 1,
@@ -59,7 +59,7 @@ pub enum JSONResults {
 
 fn get_json_info(embed_struct: bool) -> JSONResults {
 	// Read file contents
-	let contents = fs::read_to_string("config/options.json");
+	let contents = fs::read_to_string("config/options.jsonc");
 	
 	let json_str = match contents {
 		// if everything is fine, save as a variable the file contents
@@ -86,7 +86,7 @@ fn get_json_info(embed_struct: bool) -> JSONResults {
 				process::exit(1);
 			},
 			serde_err_category::Syntax => {
-				eprintln!("There was an error in the syntax of \"options.json\". Exiting...");
+				eprintln!("There was an error in the syntax of \"options.jsonc\". Exiting...");
 				process::exit(1);
 			},
 			serde_err_category::Data => {

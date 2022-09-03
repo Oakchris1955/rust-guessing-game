@@ -20,6 +20,6 @@ To begin with:
 
 ## Configuration
 
-In case you wanna edit the number of max tries you can have or mess with the number range, just edit `config/options.json`
+In case you wanna edit the number of max tries you can have or mess with the number range, just edit `config/options.jsonc`
 (Note: Deleting it will just use the default options).
 Only `total_tries`, `min_number` and `max_number` fields will be read and the rest of them will be ignored.
