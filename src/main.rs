@@ -26,6 +26,10 @@ mod locales;
 use locales::structures::Localization;
 use locales::functions::*;
 
+// Also, include modules commands and everything on it
+mod commands;
+use commands::*;
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(default)]
 pub struct JSONOptions {
@@ -148,12 +152,10 @@ fn get_user_input(msg: &str, secret_number: u32, locale: &Localization) -> u32 {
 			}
 		}
 
-		// before doing anything else, check if user entered "q"
-		if user_input.trim() == "q" {
-			// if yes, successfully exit the program and display a message
-			println!("{}", format_once(locale.messages.info_messages.user_exit.as_str(), secret_number.to_string().as_str()));
-			process::exit(0);
-		}
+		// before doing anything else, check if user entered a command or "q"
+		let command_entered = execute_command(&user_input.as_str(), locale, secret_number);
+		// If entered a command, skip rest of loop
+		if command_entered {continue;}
 
 		// try turning the input string to a u32 type
         match user_input.trim().parse::<u32>() {
@@ -184,7 +186,7 @@ fn main() {
 		// Firstly, get a list with all the valid locales
 		let locales_list = get_locales_list("locales");
 		// Then, prompt the user to select a locale
-		let selected_locale_name = select_locale(&locales_list, "locales");
+		let selected_locale_name = select_locale(&locales_list, "locales").unwrap_or_else(|| {println!("Exiting program.");process::exit(0);});
 		// Then, get the Localization object for the selected locale
 		let selected_locale = change_locale(&selected_locale_name);
 

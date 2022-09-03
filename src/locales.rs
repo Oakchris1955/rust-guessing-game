@@ -62,7 +62,7 @@ pub mod structures {
 	pub struct InfoMessages {
 		pub debug: DebugMessages,
 		pub welcome_message: String,
-		pub user_exit: String,
+		pub exit_pause_message: String,
 		pub game_messages: GameMessages,
 	}
 
@@ -72,11 +72,84 @@ pub mod structures {
 		pub info_messages: InfoMessages,
 	}
 
+	/*
+	#[derive(Deserialize, Debug)]
+	pub struct CommDescs {
+		pub quit: String,
+		pub reset: String,
+		pub help: String,
+		pub change: String
+	}*/
+
+	#[derive(Deserialize, Debug)]
+	pub struct SelectionPrompts {
+		pub max: String,
+		pub min: String,
+		pub tries: String
+	}
+
+	use std::ops::Index;
+
+	impl Index<&str> for SelectionPrompts {
+		type Output = str;
+		fn index(&self, s: &str) -> &str {
+			match s {
+				"max" | "maxnumber" => &self.max,
+				"min" | "minnumber" => &self.min,
+				"tries" => &self.tries,
+				_ => "",
+			}
+		}
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct CommText {
+		pub last_from_quit: String,
+		pub last_from_reset: String,
+		pub last_from_change: String,
+		pub no_selection: String,
+		pub no_params: String,
+		pub selection_prompts: SelectionPrompts
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct CommErrs {
+		pub cant_read_dir: String,
+		pub cant_read_file_in_path: String,
+		pub cant_remove_file: String,
+		pub cant_write_to_file: String
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct TemplateCommand {
+		pub name: String,
+		pub aliases: Vec<String>,
+		pub description: String
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct CommInfo {
+		pub quit: TemplateCommand,
+		pub reset: TemplateCommand,
+		pub change: TemplateCommand,
+		pub help: TemplateCommand
+	}
+
+	#[derive(Deserialize, Debug)]
+	pub struct Commands {
+		//pub descriptions: CommDescs,
+		pub info: CommInfo,
+		pub various_texts: CommText,
+		pub errors: CommErrs
+	}
+
 	// This will be the only module part accessible from outside
 	#[derive(Deserialize, Debug)]
 	pub struct Localization {
 		pub lang_title: String,
 		pub messages: Messages,
+		pub commands: Commands,
+		pub credits: String
 	}
 }
 
@@ -217,7 +290,7 @@ pub mod functions {
 	
 	}
 
-	pub fn select_locale(locales_vec: &Vec<String>, locales_path: &str) -> String {
+	pub fn select_locale(locales_vec: &Vec<String>, locales_path: &str) -> Option<String> {
 		// Begin by creating an empty HashMap to store the locales according to their language
 		let mut locales_hash: HashMap<String, String> = HashMap::new();
 
@@ -310,8 +383,7 @@ pub mod functions {
 
 			// Before checking if supplied locale exists, check if "q" inputted
 			if user_input.trim() == "q" {
-				println!("Exiting program.");
-				process::exit(0);
+				return None;
 			}
 
 			// Check if supplied locale exists
@@ -319,7 +391,7 @@ pub mod functions {
 			match result_locale {
 				Some(_locale_name) => {
 					// If yes, return from the function
-					return user_input.trim().to_string();
+					return Some(user_input.trim().to_string());
 				},
 				None => println!("Please select a valid language") // Else, repeat the loop again
 			}

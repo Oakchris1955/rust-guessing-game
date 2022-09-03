@@ -18,7 +18,7 @@
 				"current_try": "Zahl der aktuellen Schätzung: {}" // The format argument is the number of the current try
 			},
 			"welcome_message": "Ein einfaches Ratespiel von Oakchris1955",
-			"user_exit": "Program wird geschlossen. Die Geheimzahl war {}", // The format argument is the secret number
+			"exit_pause_message": "",
 			"game_messages": {
 				"first_try_messages": {
 					"beginning_message": "Los geht's.",
@@ -42,5 +42,49 @@
 				}
 			}
 		}
-	}
+	},
+	"commands": {
+		"info": {
+			"quit": {
+				"name": "schliessen",
+				"aliases": ["s"],
+				"description": "Ein einfacher command um das Programm ohne Fehler zu schliessen"
+			},
+			"reset": {
+				"name" : "zurücksetzen",
+				"aliases": ["z"],
+				"description": "Gesamte Nutzerkonfiguration zurücksetzen. Dies ist unwiderruflich."
+			},
+			"help": {
+				"name": "help",
+				"aliases": ["?"],
+				"description": "Das ist der Hilfe Befehl. Du benutzt ihn gerade."
+			},
+			"change": {
+				"name": "bearbeiten",
+				"aliases": ["neu"],
+				"description": "Bearbeitung von Programmparametern. Diese sind:\n\t1) Die maximale und.. \n\t2) Die minimale mögliche Geheimzahl\n\t3) Die Anzahl Versuche, die Geheimzahl zu erraten\n\t4) Die Sprache"
+			}
+		},
+		"various_texts": {
+			// The texts with "last_from_COMMANDNAME" will probably be the last output of the command
+			"last_from_quit": "Programm wird geschlossen. Die Geheimzahl ist {}", // The format argument is the secret number
+			"last_from_reset": "Program zurückgesetzt. Wird geschlossen...",
+			"last_from_change": "Daten gespeichert. Wird geschlossen...",
+			"no_selection": "Es wurde nichts ausgewählt.",
+			"no_params": "Mindestens ein Zeichen erwartet.",
+			"selection_prompts": {
+				"max": "Bitte wähle die maximale Geheimzahl aus.",
+				"min": "Bitte wähle die minimale Geheimzahl aus.",
+				"tries": "Bitte wähle die Anzahl Versuche, die Geheimzahl zu erraten"
+			}
+		},
+		"errors": {
+			"cant_read_dir": "Ein Fehler ist beim Lesen des folgenden Verzeichnisses aufgetreten: {}. Wenn das weiterhin passiert, bitte melde es hier: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument is the directory path
+			"cant_read_file_in_path": "Ein Fehler ist beim Lesen der Datei am folgenden Pfad aufgetreten: {}. Wenn das weiterhin passiert, bitte melde es hier: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument is the parent path of the file
+			"cant_remove_file": "Ein Fehler ist beim Löschen der folgenden Datei aufgetreten: {}. Wenn das weiterhin passiert, bitte melde es hier: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument if the local path of the file
+			"cant_write_to_file": "Ein Fehler ist beim Schreiben der Datei am folgenden Pfad aufgetreten: {}. Wenn das weiterhin passiert, bitte melde es hier: https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument is the file name
+		}
+	},
+	"credits": "Dieses Programm wurde hauptsächlich von Oakchris1955 programmiert, der auch die Griechische Übersetzung verfasst hat während MoDerPo die Deutsche schrieb"
 }

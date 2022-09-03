@@ -18,7 +18,7 @@
 				"current_try": "Number of current guess: {}" // The format argument is the number of the current try
 			},
 			"welcome_message": "A simple guessing game. Made by Oakchris1955",
-			"user_exit": "Exiting program. The secret number was {}", // The format argument is the secret number
+			"exit_pause_message": "Press any key to exit . . .",
 			"game_messages": {
 				"first_try_messages": {
 					"beginning_message": "Alright, let's begin.",
@@ -42,5 +42,49 @@
 				}
 			}
 		}
-	}
+	},
+	"commands": {
+		"info": {
+			"quit": {
+				"name": "quit",
+				"aliases": ["q"],
+				"description": "A simple command to exit program without raising an error"
+			},
+			"reset": {
+				"name" : "reset",
+				"aliases": ["r"],
+				"description": "Resets all user configuration. Can't be undone"
+			},
+			"help": {
+				"name": "help",
+				"aliases": ["?"],
+				"description": "This is the help command. You are using it right now"
+			},
+			"change": {
+				"name": "change",
+				"aliases": ["new"],
+				"description": "A command that allows you to modify program parameters. These are:\n\t1) The maximum and... \n\t2) The minimum number possible for the secret number\n\t3) The total number of tries to find the secret number\n\t4) The program locale"
+			}
+		},
+		"various_texts": {
+			// The texts with "last_from_COMMANDNAME" will probably be the last output of the command
+			"last_from_quit": "Exiting program. The secret number was {}", // The format argument is the secret number
+			"last_from_reset": "Program resetted. Exiting...",
+			"last_from_change": "Data saved. Exiting...",
+			"no_selection": "User didn't select anything",
+			"no_params": "Expected at least 1 parameter",
+			"selection_prompts": {
+				"max": "Please select the value for the max possible secret number in range",
+				"min": "Please select the value for the minimum possible secret number in range",
+				"tries": "Please select the value for the total number of tries"
+			}
+		},
+		"errors": {
+			"cant_read_dir": "An error occured while trying to read directory {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument is the directory path
+			"cant_read_file_in_path": "An error occured while trying to read file in path {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument is the parent path of the file
+			"cant_remove_file": "An error occured while trying to remove file {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues", // The format argument if the local path of the file
+			"cant_write_to_file": "An error occured while trying to write data to file {}. If this keeps happening, please report it at: https://github.com/Oakchris1955/rust-guessing-game/issues" // The format argument is the file name
+		}
+	},
+	"credits": "This program was mainly programmed by Oakchris1955 who also made the Greek locale, while MoDerPo made the German locale"
 }
